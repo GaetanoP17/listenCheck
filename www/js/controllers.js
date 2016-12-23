@@ -56,13 +56,26 @@ function ($scope, $stateParams) {
 
 }])
    
-.controller('loginCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
-
-
-}])
+.controller('loginCtrl', ['$scope', '$stateParams', '$http',
+  function ($scope, $stateParams, $http)
+  {
+    $scope.invia=function()
+    {
+      var parameter=JSON.stringify({email: $scope.email, password: $scope.password});
+      //alert(parameter);
+      //alert($stateParams);
+      $http.post("http://localhost:3000/login", {email: $scope.email,password: $scope.password})
+      .success(function(data)
+      {
+        //var d= JSON.parse(data);
+        alert("la richiesta è andata in porto");
+      })
+        .error(function()
+      {
+        alert("Errorreeeeeeee");
+      });
+    }
+  }])
    
 .controller('menuEsercitazioneCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
