@@ -1,0 +1,48 @@
+<ion-view title="" hide-back-button="true" id="gestioneCommunity">
+  <ion-nav-buttons side="left" class="has-header">
+    <a ui-sref="menuGestioneCommunity" class="button icon-left ion-chevron-left button-clear button-white">&nbsp;Back</a>
+  </ion-nav-buttons>
+  <ion-content padding="true" class="has-header">
+    <form id="gestioneCommunity-form14" class="list">
+      <h3 id="gestioneCommunity-heading15" style="color:#FF1300;text-align:center;">Esamina Suono</h3>
+      <h4 id="gestioneCommunity-heading20" style="color:#0F71DE;">Nome suono</h4>
+      <label class="item item-input" id="gestioneCommunity-input28" name="nome">
+        <input type="text" placeholder="">
+      </label>
+      <h4 id="gestioneCommunity-heading21" style="color:#0F71DE;">Descrizione suono</h4>
+      <label class="item item-input" id="gestioneCommunity-input29" name="descrizione">
+        <input type="text" placeholder="">
+      </label>
+      <div class="spacer" style="width: 300px; height: 17px;"></div>
+      <button id="gestioneCommunity-button27" style="font-weight:500;font-size:20px;" class="button button-positive  button-block icon-left ion-ios-play">Riproduci</button>
+    </form>
+    <div style="margin: 0px; line-height: 250px; background-color: rgb(232, 235, 239); text-align: center;">
+      <i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>
+    </div>
+    <h4 id="gestioneCommunity-heading19" style="color:#0F71DE;">Cataloga in: </h4>
+    <form id="gestioneCommunity-form16" class="list">
+      <label class="item item-select" id="gestioneCommunity-select10" name="decibel">
+        <span class="input-label">Decibel</span>
+        <select>
+          <option>-</option>
+          <option>0 - 70 dB</option>
+          <option>71 - 90 dB</option>
+          <option>91 - 110 dB</option>
+          <option>111 - 130 dB</option>
+        </select>
+      </label>
+      <label class="item item-select" id="gestioneCommunity-select11" name="frequenza">
+        <span class="input-label">Frequenza</span>
+        <select>
+          <option>-</option>
+          <option>10 - 1000 Hz</option>
+          <option>1001 - 10000 Hz</option>
+          <option>10001 - 100000 Hz</option>
+          <option>100001 - 1000000 Hz</option>
+        </select>
+      </label>
+    </form>
+    <button id="gestioneCommunity-button25" style="font-weight:500;font-size:20px;border-radius:0px 0px 0px 0px;" class="button button-balanced  button-block icon-left ion-checkmark">Approva</button>
+    <button id="gestioneCommunity-button26" style="font-weight:500;font-size:20px;" class="button button-assertive  button-block icon-left ion-close">Rifiuta</button>
+  </ion-content>
+</ion-view>

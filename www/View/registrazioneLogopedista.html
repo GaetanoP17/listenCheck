@@ -1,0 +1,47 @@
+<ion-view title="" hide-back-button="true" id="registrazioneLogopedista">
+  <ion-nav-buttons side="left" class="has-header">
+    <a ui-sref="side-menu21.menuAdmin" class="button icon-left ion-chevron-left button-clear button-white">&nbsp;Back</a>
+  </ion-nav-buttons>
+  <ion-content padding="true" class="has-header">
+    <form id="registrazioneLogopedista-form11" class="list">
+      <h2 id="registrazioneLogopedista-heading29" style="color:#FF1300;text-align:center;">Registrazione</h2>
+      <ion-list id="registrazioneLogopedista-list10">
+        <label class="item item-input" id="registrazioneLogopedista-input20" name="nome">
+          <input type="text" placeholder="Nome">
+        </label>
+        <label class="item item-input" id="registrazioneLogopedista-input21" name="cognome">
+          <input type="text" placeholder="Cognome">
+        </label>
+		<ion-item class="item-icon-right positive" id="side-menu21-list-item4" ui-sref="registrazioneLogopedista" menu-close="">
+          <i class="icon ion-android-calendar"></i>
+		  <label class="item item-input" id="profiloUtente-input9" name="data">
+          <input type="date" placeholder="Data di nascita">
+		  </label>
+	    </ion-item>
+        <ion-list-header>
+	    <h4 id="profiloUtente-heading25" style="color:#0F71DE;">Sesso</h4>
+	    </ion-list-header>
+        <ion-radio id="registrazioneUtente-radio10" name="sesso">Maschio</ion-radio>
+        <ion-radio id="registrazioneUtente-radio11" name="sesso">Femmina</ion-radio>
+        </ion-list>
+	    <div class="spacer" style="width: 300px; height: 16px;"></div>
+        <label class="item item-input" id="registrazioneLogopedista-input27" name="piva">
+          <input type="text" placeholder="P.IVA">
+        </label>
+        <label class="item item-input" id="registrazioneLogopedista-input22" name="email">
+          <input type="email" placeholder="Email">
+        </label>
+        <label class="item item-input" id="registrazioneLogopedista-input23" name="emailr">
+          <input type="email" placeholder="Reinserisci Email">
+        </label>
+        <label class="item item-input" id="registrazioneLogopedista-input24" name="pw">
+          <input type="password" placeholder="Password">
+        </label>
+        <label class="item item-input" id="registrazioneLogopedista-input25" name="pwr">
+          <input type="password" placeholder="Reinserisci Password">
+        </label>
+      </ion-list>
+      <a ui-sref="side-menu21.listenCheck" id="registrazioneLogopedista-button14" style="font-weight:500;font-size:20px;" class="button button-positive  button-block">Registra</a>
+    </form>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,39 @@
+<ion-view title="" hide-back-button="true" id="profiloUtente">
+  <ion-nav-buttons side="left" class="has-header">
+    <!-- modificare ui-sref in base al tipo di utente-->
+    <a ui-sref="side-menu21.menuAdmin" class="button icon-left ion-chevron-left button-clear button-white">&nbsp;Back</a>
+	</ion-nav-buttons>
+  <ion-content padding="true" class="has-header">
+    <h3 id="profiloUtente-heading24" style="color:#FF1300;text-align:center;">Profilo</h3>
+    <form id="profiloUtente-form6" class="list">
+        <label class="item item-input" id="profiloUtente-input6" name="nome">
+        <input type="text" placeholder="Nome">
+      </label>
+      <label class="item item-input" id="profiloUtente-input8" name="cognome">
+        <input type="text" placeholder="Cognome">
+      </label>
+      <ion-item class="item-icon-right positive" id="side-menu21-list-item4" ui-sref="profiloUtente" menu-close="">
+          <i class="icon ion-android-calendar"></i>
+		  <label class="item item-input" id="profiloUtente-input9" name="data">
+          <input type="date" placeholder="Data di nascita">
+		  </label>
+	  </ion-item>
+      <ion-list-header>
+	  <h4 id="profiloUtente-heading25" style="color:#0F71DE;">Sesso</h4>
+	  </ion-list-header>
+      <ion-radio id="profiloUtente-radio7" name="sesso">Maschio</ion-radio>
+      <ion-radio id="profiloUtente-radio8" name="sesso">Femmina</ion-radio>
+	  <div class="spacer" style="width: 300px; height: 16px;"></div>
+	   <label class="item item-input" id="profiloUtente-input4" name="email">
+        <input type="text" placeholder="Email" disabled>
+      </label>
+      <label class="item item-input" id="profiloUtente-input10" name="pw">
+        <input type="password" placeholder="Inserisci nuova password">
+      </label>
+      <label class="item item-input" id="profiloUtente-input5" name="pwr">
+        <input type="password" placeholder="Reinserisci password">
+      </label>
+      <button id="profiloUtente-button10" style="font-weight:500;font-size:20px;" class="button button-positive  button-block">Salva modifiche</button>
+    </form>
+  </ion-content>
+</ion-view>

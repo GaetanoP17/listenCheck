@@ -1,0 +1,44 @@
+<ion-view title="" hide-back-button="true" id="registrazioneUtente">
+  <ion-nav-buttons side="left" class="has-header">
+  <!-- modificare ui-sref in base al tipo di utente-->
+    <a ui-sref="login" class="button icon-left ion-chevron-left button-clear button-white">&nbsp;Back</a>
+  </ion-nav-buttons>
+  <ion-content padding="true" class="has-header">
+    <form id="registrazioneUtente-form10" class="list">
+      <h2 id="registrazioneUtente-heading27" style="color:#FF1300;text-align:center;">Registrazione</h2>
+      <ion-list id="registrazioneUtente-list9">
+        <label class="item item-input" id="registrazioneUtente-input13" name="nome">
+          <input type="text" placeholder="Nome">
+        </label>
+        <label class="item item-input" id="registrazioneUtente-input14" name="cognome">
+          <input type="text" placeholder="Cognome">
+        </label>
+		<ion-item class="item-icon-right positive" id="side-menu21-list-item4" ui-sref="registrazioneUtente" menu-close="">
+          <i class="icon ion-android-calendar"></i>
+		  <label class="item item-input" id="profiloUtente-input9" name="data">
+          <input type="date" placeholder="Data di nascita">
+		  </label>
+	    </ion-item>
+        <ion-list-header>
+	    <h4 id="profiloUtente-heading25" style="color:#0F71DE;">Sesso</h4>
+	    </ion-list-header>
+        <ion-radio id="registrazioneUtente-radio10" name="sesso">Maschio</ion-radio>
+        <ion-radio id="registrazioneUtente-radio11" name="sesso">Femmina</ion-radio>
+        </ion-list>
+	    <div class="spacer" style="width: 300px; height: 16px;"></div>
+        <label class="item item-input" id="registrazioneUtente-input15" name="email">
+          <input type="email" placeholder="Email">
+        </label>
+        <label class="item item-input" id="registrazioneUtente-input16" name="emailr">
+          <input type="email" placeholder="Reinserisci Email">
+        </label>
+        <label class="item item-input" id="registrazioneUtente-input17" name="pw">
+          <input type="password" placeholder="Password">
+        </label>
+        <label class="item item-input" id="registrazioneUtente-input18" name="pwr">
+          <input type="password" placeholder="Reinserisci Password">
+        </label>
+        <a ui-sref="login" id="registrazioneUtente-button13" style="font-weight:500;font-size:20px;" class="button button-positive  button-block">Registrati</a>
+    </form>
+  </ion-content>
+</ion-view>
