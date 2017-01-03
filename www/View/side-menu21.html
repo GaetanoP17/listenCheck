@@ -1,4 +1,4 @@
-<ion-side-menus enable-menu-with-back-views="true">
+<ion-side-menus enable-menu-with-back-views="true" ng-controller="side-menu21Ctrl">
   <ion-side-menu-content>
     <ion-nav-bar class="bar-positive">
       <ion-nav-back-button></ion-nav-back-button>
@@ -15,7 +15,7 @@
     <ion-content padding="true" class="side-menu-right has-header ">
       <ion-list id="side-menu21-list1">
         <ion-item class="item-icon-left positive" id="side-menu21-list-item4" ui-sref="profiloUtente" menu-close="">
-          <i class="icon ion-android-person"></i>{Nome e Cognome}</ion-item>
+          <i class="icon ion-android-person"></i>{{mostraNome()}}</ion-item>
         <ion-item class="item-icon-left balanced" id="side-menu21-list-item24" ui-sref="cercaLogopedista" menu-close="">
           <i class="icon ion-medkit"></i>Logopedista</ion-item>
         <ion-item class="item-icon-left assertive" id="side-menu21-list-item9" ui-sref="login" menu-close="">

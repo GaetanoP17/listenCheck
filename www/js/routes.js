@@ -11,7 +11,7 @@ angular.module('app.routes', [])
   
 
     .state('side-menu21.menuAdmin', {
-      url: '/Menu/menuAdmin',
+      url: '/menuAdmin',
     views: {
       'side-menu21': {
         templateUrl: 'View/menuAdmin.html',
@@ -21,7 +21,7 @@ angular.module('app.routes', [])
   })
 
   .state('side-menu21.menuLogopedista', {
-    url: '/Menu/menuLogopedista',
+    url: '/menuLogopedista',
     views: {
       'side-menu21': {
         templateUrl: 'View/menuLogopedista.html',
@@ -31,7 +31,7 @@ angular.module('app.routes', [])
   })
 
   .state('side-menu21.menuUtente', {
-    url: '/Menu/menuUtente',
+    url: '/menuUtente',
     views: {
       'side-menu21': {
         templateUrl: 'View/menuUtente.html',
