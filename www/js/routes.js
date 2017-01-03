@@ -10,8 +10,8 @@ angular.module('app.routes', [])
     
   
 
-      .state('side-menu21.menuAdmin', {
-    url: '/menuAdmin',
+    .state('side-menu21.menuAdmin', {
+      url: '/Menu/menuAdmin',
     views: {
       'side-menu21': {
         templateUrl: 'View/menuAdmin.html',
@@ -21,7 +21,7 @@ angular.module('app.routes', [])
   })
 
   .state('side-menu21.menuLogopedista', {
-    url: '/menuLogopedista',
+    url: '/Menu/menuLogopedista',
     views: {
       'side-menu21': {
         templateUrl: 'View/menuLogopedista.html',
@@ -31,7 +31,7 @@ angular.module('app.routes', [])
   })
 
   .state('side-menu21.menuUtente', {
-    url: '/menuUtente',
+    url: '/Menu/menuUtente',
     views: {
       'side-menu21': {
         templateUrl: 'View/menuUtente.html',
@@ -148,7 +148,7 @@ angular.module('app.routes', [])
     controller: 'gestioneCommunityCtrl'
   })
 
-$urlRouterProvider.otherwise('/login')
+$urlRouterProvider.otherwise('/login');
 
   
 

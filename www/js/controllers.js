@@ -56,25 +56,43 @@ function ($scope, $stateParams) {
 
 }])
    
-.controller('loginCtrl', ['$scope', '$stateParams', '$http',
-  function ($scope, $stateParams, $http)
+.controller('loginCtrl', ['$scope', '$stateParams', '$http', '$cookies','$window','$location',
+  function ($scope, $stateParams, $http, $cookies, $window, $location)
   {
     $scope.invia=function()
     {
-      var parameter=JSON.stringify({email: $scope.email, password: $scope.password});
-      //alert(parameter);
-      //alert($stateParams);
       $http.post("http://localhost:3000/login", {email: $scope.email,password: $scope.password})
       .success(function(data)
       {
-        //var d= JSON.parse(data);
-        alert("la richiesta è andata in porto");
+          if(data === "Nologin")
+              alert("Dati di accesso errati");
+          else 
+          {
+              $cookies.putObject('account', data);
+              if(data.type === "A")
+              {
+                  $location.path('/Menu/menuAdmin');
+                  
+              }
+              else if(data.type === "U")
+              {
+                 $location.path('/Menu/menuUtente');
+              }
+              else
+              {
+                 $location.path('/Menu/menuLogopedista');
+              }
+              
+              //metodo per recuperare i cookies
+              //var oggettoAccount=$cookies.getObject('account');
+              //alert(oggettoAccount.state);
+          }  
       })
         .error(function()
       {
-        alert("Errorreeeeeeee");
+        alert("Problemi con il server...Riprovare più tardi");
       });
-    }
+    };
   }])
    
 .controller('menuEsercitazioneCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
