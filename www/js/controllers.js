@@ -62,12 +62,12 @@ function ($scope, $stateParams, $cookies)
 
 }])
    
-.controller('loginCtrl', ['$scope', '$stateParams', '$http', '$cookies','$location',
-  function ($scope, $stateParams, $http, $cookies, $location)
+.controller('loginCtrl', ['server', '$scope', '$stateParams', '$http', '$cookies','$location',
+  function (server, $scope, $stateParams, $http, $cookies, $location)
   {
     $scope.invia=function()
     {
-      $http.post("http://localhost:3000/login", {email: $scope.email,password: $scope.password})
+      $http.post(server('/login'), {email: $scope.email,password: $scope.password})
       .success(function(data)
       {
           if(data === "Nologin")
