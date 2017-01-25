@@ -81,6 +81,12 @@ angular.module('app.routes', [])
     templateUrl: 'View/esercitazione.html',
     controller: 'esercitazioneCtrl'
   })
+  
+  .state('riepilogoEsercitazione', {
+    url: '/riepilogoEsercitazione',
+    templateUrl: 'View/riepilogoEsercitazione.html',
+    controller: 'riepilogoEsercitazioneCtrl'
+  })
 
   .state('menuApprendimento', {
     url: '/menuApprendimento',

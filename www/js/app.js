@@ -9,7 +9,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
 
 .config(function($ionicConfigProvider, $sceDelegateProvider){
   
-
+  //$sceDelegateProvider.resourceUrlWhitelist(['^(?:http(?:s)?:\/\/)?(?:[^\.]+\.)?\(vimeo|youtube|spotify)\.com(/.*)?$', 'self']);
   $sceDelegateProvider.resourceUrlWhitelist([ 'self','*://www.youtube.com/**', '*://player.vimeo.com/video/**']);
 
 })
@@ -78,4 +78,26 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
       });
     }
   };
+})
+
+.directive('imageonload', function () {
+return {
+    restrict: 'A',
+    link: function (scope, element, attrs) {
+        element.bind('load', function() {
+            scope.$apply(attrs.imageonload);
+        });
+    }
+};
+})
+
+.directive('soundonended', function () {
+return {
+    restrict: 'A',
+    link: function (scope, element, attrs) {
+        element.bind('ended', function() {
+            scope.$apply(attrs.soundonended);
+        });
+    }
+};
 });

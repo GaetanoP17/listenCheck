@@ -1,23 +1,52 @@
-<ion-view title="" hide-back-button="true" id="esercitazione">
+<ion-view title="Associa il suono all'immagine" hide-back-button="true" cache-view="false" id="esercitazione" ng-controller="esercitazioneCtrl" ng-init="getQuesito(0)">
+<link href="css/esercitazione.css" rel="stylesheet">
   <ion-nav-buttons side="right" class="has-header">
-    <a ui-sref="side-menu21.menuUtente" class="button button-icon icon ion-android-close"></a>
+    <button class="button button-icon icon ion-android-close" ng-click="chiudi(0)"></button>
     </ion-nav-buttons>
   <ion-content padding="true" class="has-header">
-    <ion-list id="esercitazione-list8">
-      <form id="esercitazione-form3" class="list">
-        <progress id="avanzamento" value="2" max="10">
-        </progress>
-        <button id="esercitazione-button31" style="font-weight:500;font-size:20px;" class="button button-positive  button-block button-clear icon-left ion-android-volume-up">Riproduci suono</button>
-        <div style="margin: 0px; line-height: 250px; background-color: rgb(232, 235, 239); text-align: center;">
-          <i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>
+    <ion-list id="esercitazione-list">
+      <form id="esercitazione-form" class="list">
+        <div id="intest_es">
+            <div id="intest_es_1">
+                <button id="play" class="item item-icon-left play_on" style="border: none; background-color: transparent;" ng-click="riproduci()">
+                    <i ng-class="play_Feedback" style="font-size: 24px;" class="icon"></i>
+                </button>
+            </div>
+            <div id="intest_es_2">
+                <div class="progressbar" style="width:{{progressA}}"></div>
+                <div class="textbar" style="width:{{progressA}}">{{progressB}}</div>
+            </div>
         </div>
-        <ion-radio id="esercitazione-radio5" name="risposta">{Nome Foto}</ion-radio>
-        <div style="margin: 0px; line-height: 250px; background-color: rgb(232, 235, 239); text-align: center;">
-          <i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>
+        <div id="loading" ng-if="showLoading">
+            <img style="width:200px; height: 200px;" src ='./img/loading.gif'/>     
         </div>
-        <ion-radio id="esercitazione-radio6" name="risposta">{Nome Foto}</ion-radio>
-        <button id="esercitazione-button7" style="font-weight:500;font-size:20px;" class="button button-positive  button-block">Controlla</button>
+        <div id="contenitore_es" ng-show="showQuesito"> 
+            <label ng-disabled="selettori" ng-click="seleziona('a')">
+                <h4 id="radio_a" class="radio_es">{{radio_a}}</h4>
+                <img id="imm_a" class="imm_es imm_off" ng-src="{{imm_a}}" imageonload="imgLoad('a')"/>   
+            </label>
+            <label ng-disabled="selettori" ng-click="seleziona('b')">
+                <h4 id="radio_b" class="radio_es">{{radio_b}}</h4>
+                <img id="imm_b" class="imm_es imm_off" ng-src="{{imm_b}}" imageonload="imgLoad('b')"/>
+            </label>
+            <label ng-disabled="selettori" ng-click="seleziona('c')">
+                <h4 id="radio_c" class="radio_es">{{radio_c}}</h4>
+                <img id="imm_c" class="imm_es imm_off" ng-src="{{imm_c}}" imageonload="imgLoad('c')"/>
+            </label>
+            <label ng-disabled="selettori" ng-click="seleziona('d')">
+                <h4 id="radio_d" class="radio_es">{{radio_d}}</h4>
+                <img id="imm_d" class="imm_es imm_off" ng-src="{{imm_d}}" imageonload="imgLoad('d')"/>
+            </label>
+        </div> 
+        <div ng-show="showButtons">
+            <button id="esercitazione-controlla" ng-show="showButtonA" ng-disabled="disabledButtonA" style="font-weight:500;font-size:20px;" class="button button-positive  button-block" ng-click="controlla()">Controlla</button>
+            <button id="esercitazione-continua" ng-show="showButtonB" style="font-weight:500;font-size:20px;" class="button button-calm  button-block" ng-click="getQuesito(1)">Continua</button>
+            <button id="esercitazione-riepilogo" ng-show="showButtonC" style="font-weight:500;font-size:20px;" class="button button-balanced button-block" ng-click="chiudi(1)">Visualizza Riepilogo</button>
+        </div>      
       </form>
     </ion-list>
+    <audio id="si" src ='./sounds/si.mp3' type="audio/mpeg" preload="auto"> </audio>
+    <audio id="no" src ='./sounds/no.mp3' type="audio/mpeg" preload="auto"> </audio>
+    <audio id="suono" ng-src="{{giubox}}" type="audio/mpeg" preload="auto" soundonended="fineRiproduzione()"> </audio>          
   </ion-content>
 </ion-view>

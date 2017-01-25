@@ -12,7 +12,7 @@
     <ion-header-bar class="bar-stable">
       <div class="title"></div>
     </ion-header-bar>
-    <ion-content padding="true" class="side-menu-right has-header ">
+    <ion-content padding="true" scroll="false" class="side-menu-right has-header ">
       <ion-list id="side-menu21-list1">
         <ion-item class="item-icon-left positive" id="side-menu21-list-item4" ui-sref="profiloUtente" menu-close="">
           <i class="icon ion-android-person"></i>{{mostraNome()}}</ion-item>
@@ -20,11 +20,11 @@
           <i class="icon ion-medkit"></i>Logopedista</ion-item>
         <ion-item class="item-icon-left assertive" id="side-menu21-list-item9" ui-sref="login" menu-close="">
           <i class="icon ion-power"></i>Esci</ion-item>
-        <ion-item class="item-icon-left" id="side-menu21-list-item6" ui-sref="side-menu21.menuAdmin" menu-close="">
+        <ion-item class="item-icon-left" id="side-menu21-list-item6" style="display:none;" ui-sref="side-menu21.menuAdmin" menu-close="">
           <i class="icon ion-home"></i>Home Amministratore</ion-item>
-        <ion-item class="item-icon-left" id="side-menu21-list-item7" ui-sref="side-menu21.menuLogopedista" menu-close="">
+        <ion-item class="item-icon-left" id="side-menu21-list-item7" style="display:none;" ui-sref="side-menu21.menuLogopedista" menu-close="">
           <i class="icon ion-home"></i>Home Logopedista</ion-item>
-        <ion-item class="item-icon-left" id="side-menu21-list-item8" ui-sref="side-menu21.menuUtente" menu-close="">
+        <ion-item class="item-icon-left" id="side-menu21-list-item8" style="display:none;" ui-sref="side-menu21.menuUtente" menu-close="">
           <i class="icon ion-home"></i>Home Utente</ion-item>
       </ion-list>
     </ion-content>

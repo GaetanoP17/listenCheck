@@ -1,0 +1,51 @@
+<ion-view title="Riepilogo Esercitazione" hide-back-button="true" cache-view="false" ng-controller="riepilogoEsercitazioneCtrl" ng-init="riepiloga()">
+    <link href="css/esercitazione.css" rel="stylesheet">  
+    <ion-nav-buttons side="right" class="has-header">
+        <button ui-sref="side-menu21.menuUtente" class="button button-icon icon ion-android-close"></button>
+    </ion-nav-buttons>
+    <ion-content padding="true" class="has-header">
+        <div ng-if="!visualizza" id="loading">
+                <img style="width:200px; height: 200px;" src ='./img/loading.gif'/>     
+        </div>
+        <div ng-show="visualizza" id="riepilogo" class="list">
+            <div id="aa" class="bar bar-header bar-light">
+                <h1 id="tipologia">{{tipologia}}</h1>
+            </div><br><br><br>
+            <a class="item item-thumbnail-left item-icon-right" ng-click="play('1')">
+                <img ng-src="{{f1}}" imageonload="carica('f1')"/>
+                <p class="riepilogoNome"></p>
+                <span class="riepilogoFeedback"></span>
+                <i id="p1" class="icon ion-play playRiepilogo_off"></i>               
+            </a>
+            <a class="item item-thumbnail-left item-icon-right" ng-click="play('2')">
+                <img ng-src="{{f2}}" imageonload="carica('f2')"/>
+                <p class="riepilogoNome"></p>
+                <span class="riepilogoFeedback"></span>                
+                <i id="p2" class="icon ion-play playRiepilogo_off"></i>
+            </a>
+            <a class="item item-thumbnail-left item-icon-right" ng-click="play('3')">
+                <img ng-src="{{f3}}" imageonload="carica('f3')"/>
+                <p class="riepilogoNome"></p>
+                <span class="riepilogoFeedback"></span>                
+                <i id="p3" class="icon ion-play playRiepilogo_off"></i>
+            </a>
+            <a class="item item-thumbnail-left item-icon-right" ng-click="play('4')">
+                <img ng-src="{{f4}}" imageonload="carica('f4')"/>
+                <p class="riepilogoNome"></p>
+                <span class="riepilogoFeedback"></span>                
+                <i id="p4" class="icon ion-play playRiepilogo_off"></i>
+            </a>
+            <a class="item item-thumbnail-left item-icon-right" ng-click="play('5')">
+                <img ng-src="{{f5}}" imageonload="carica('f5')"/>
+                <p class="riepilogoNome"></p>
+                <span class="riepilogoFeedback"></span>
+                <i id="p5" class="icon ion-play playRiepilogo_off"></i>               
+            </a>
+        </div>
+        <audio id="s1" ng-src="{{s1}}" type="audio/mpeg" preload="auto" soundonended="riproduzioneTerminata()"> </audio>
+        <audio id="s2" ng-src="{{s2}}" type="audio/mpeg" preload="auto" soundonended="riproduzioneTerminata()"> </audio>
+        <audio id="s3" ng-src="{{s3}}" type="audio/mpeg" preload="auto" soundonended="riproduzioneTerminata()"> </audio>
+        <audio id="s4" ng-src="{{s4}}" type="audio/mpeg" preload="auto" soundonended="riproduzioneTerminata()"> </audio>
+        <audio id="s5" ng-src="{{s5}}" type="audio/mpeg" preload="auto" soundonended="riproduzioneTerminata()"> </audio> 
+    </ion-content>
+</ion-view>
