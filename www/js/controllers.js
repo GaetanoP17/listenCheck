@@ -145,7 +145,8 @@ function (esercizio, server, $scope, $http, $stateParams, $location, $cookies, $
     $('#suono').prop("volume", 1.0);   
     $('#si').prop("volume", 1.0);
     $('#no').prop("volume", 1.0);
-    
+        
+    $scope.fine = 1; 
     $scope.play_Feedback = 'ion-play';
     $scope.showButtonA = 1;
     $scope.disabledButtonA = 1;
@@ -341,10 +342,9 @@ function (esercizio, server, $scope, $http, $stateParams, $location, $cookies, $
                 esercizio.addRis(quesito);
                 $scope.showButtonA = 0;
                 if(esercizio.elencoRis.length === $scope.maxQuestions){
+                    $scope.fine = 0;
                     $scope.showButtonC = 1;
                     $scope.getQuesito();
-                }else{
-                    $scope.showButtonB = 1;
                 }
             })
             .error(function()
@@ -381,7 +381,6 @@ function (esercizio, server, $scope, $http, $stateParams, $location, $cookies, $
             $scope.play_Feedback = 'ion-play';
             $("h4 + img").removeClass('imm_true').removeClass('imm_false').addClass('imm_off');
             $("h4").css("color","black");
-            $scope.showButtonB = 0;
             $scope.disabledButtonA = 1;
             $scope.showButtonA = 1;
             $("#play").addClass("play_on").removeClass("play_off");          

@@ -39,8 +39,8 @@
             </label>
         </div> 
         <div ng-show="showButtons">
-            <button id="esercitazione-controlla" ng-show="showButtonA" ng-disabled="disabledButtonA" style="font-weight:500;font-size:20px;" class="button button-positive  button-block" ng-click="controlla()">Controlla</button>
-            <button id="esercitazione-continua" ng-show="showButtonB" style="font-weight:500;font-size:20px;" class="button button-calm  button-block" ng-click="getQuesito(1)">Continua</button>
+            <button id="esercitazione-controlla" ng-if="fine" ng-show="showButtonA" ng-disabled="disabledButtonA" style="font-weight:500;font-size:20px;" class="button button-positive  button-block" ng-click="controlla()">Controlla</button>
+            <button id="esercitazione-continua" ng-if="fine" ng-show="!showButtonA" style="font-weight:500;font-size:20px;" class="button button-calm  button-block" ng-click="getQuesito(1)">Continua</button>
             <button id="esercitazione-riepilogo" ng-show="showButtonC" style="font-weight:500;font-size:20px;" class="button button-balanced button-block" ng-click="chiudi(1)">Visualizza Riepilogo</button>
         </div>      
       </form>
