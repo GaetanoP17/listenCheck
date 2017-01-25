@@ -306,9 +306,7 @@ function (esercizio, server, $scope, $http, $stateParams, $location, $cookies, $
         $("#esercitazione-continua").css("top", max*2+106+"px");
         $("#esercitazione-riepilogo").css("top", max*2+106+"px");
         mostra(1);
-        $("#suono").get(0).play();
-        //$("#suono").bind("ended",fineRiproduzione); 
-        //$("#play").bind("click",riproduci); 
+        $("#suono").get(0).play(); 
     }
     
     function on(selezione){
@@ -360,7 +358,6 @@ function (esercizio, server, $scope, $http, $stateParams, $location, $cookies, $
     function manipola(showFeedback,esito){
         if(showFeedback)
         {
-            //$("#play").unbind('click');
             $scope.selettori = 1;
             if(esito)
             {
@@ -380,7 +377,6 @@ function (esercizio, server, $scope, $http, $stateParams, $location, $cookies, $
         else
         {
             $scope.scelta = null;
-            //$("#play").bind("click",riproduci);
             $scope.selettori = 0;
             $scope.play_Feedback = 'ion-play';
             $("h4 + img").removeClass('imm_true').removeClass('imm_false').addClass('imm_off');
