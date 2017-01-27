@@ -141,6 +141,7 @@ function (server, esercizio, $scope, $stateParams, $location, $cookies, $http) {
 
 .controller('esercitazioneCtrl', ['esercizio', 'server', '$scope', '$http', '$stateParams', '$location', '$cookies', '$window', '$sce', '$ionicPopup', '$timeout',
 function (esercizio, server, $scope, $http, $stateParams, $location, $cookies, $window, $sce, $ionicPopup, $timeout) {
+    $scope.anomalia = 0;
     $scope.maxQuestions = 5;            
     $('#suono').prop("volume", 1.0);   
     $('#si').prop("volume", 1.0);
@@ -152,17 +153,23 @@ function (esercizio, server, $scope, $http, $stateParams, $location, $cookies, $
     $scope.disabledButtonA = 1;
     $scope.selettori = 0; 
     $scope.showLoading = 1;
-
+    $scope.showButtonC = 0;
     
     $scope.getQuesito=function(reload){
         $scope.nQuestion = esercizio.elencoRis.length;
-        if($scope.nQuestion === $scope.maxQuestions){
+        if($scope.nQuestion === $scope.maxQuestions)
+        {
             $timeout(function () {
                 $ionicPopup.alert({
                     title: 'Esercitazione',
                     template: 'Complimenti hai terminato l\'esercitazione!'
                 });
-            }, 1500);
+            }, 1000);
+        }
+        else if($scope.nQuestion > $scope.maxQuestions)
+        {
+            $scope.anomalia = 1;
+            $scope.risolviAnomalia();             
         }
         else{
             mostra(0);        
@@ -341,11 +348,16 @@ function (esercizio, server, $scope, $http, $stateParams, $location, $cookies, $
                 var quesito = {id: $scope.id, nome: $scope.nome, ascolti: esercizio.ascolti, esito: esito};
                 esercizio.addRis(quesito);
                 $scope.showButtonA = 0;
-                if(esercizio.elencoRis.length === $scope.maxQuestions){
+                if(esercizio.elencoRis.length > $scope.maxQuestions)
+                {
+                    $scope.getQuesito(); 
+                }
+                else if(esercizio.elencoRis.length === $scope.maxQuestions)
+                {
                     $scope.fine = 0;
                     $scope.showButtonC = 1;
                     $scope.getQuesito();
-                }
+                }                               
             })
             .error(function()
             {
@@ -491,7 +503,29 @@ function (esercizio, server, $scope, $http, $stateParams, $location, $cookies, $
                 sospendiEsercitazione(1,0);
             }
         });
-    };   
+    }
+    
+    $scope.risolviAnomalia = function() {       
+        var alertPopup = $ionicPopup.alert({
+            title: 'Anomalia Esercitazione',
+            template: "Esercitazione condotta in modo anomalo"
+        });
+        
+        alertPopup.then(function(res) {
+            var email = $cookies.getObject('account').email;
+            var parameter = JSON.stringify({account: email, idEsercitazione: esercizio.idEsercitazione});
+            $http.post(server('/esercitazione/anomalia'), parameter)
+            .success(function(data, status, headers, config){
+                $location.path('/Menu/menuUtente');   
+            })
+            .error(function()
+            {
+                alert("Problemi con il Server...Riprovare più tardi");
+                $location.path('/Menu/menuUtente');
+            });
+        });       
+    }
+
 }])
 
 .controller('riepilogoEsercitazioneCtrl', ['esercizio', 'server', '$scope', '$stateParams', '$sce',

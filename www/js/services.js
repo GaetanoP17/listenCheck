@@ -2,9 +2,7 @@ angular.module('app.services', [])
 
 .factory('server', function() { 
         return function(indirizzo) { 
-            //return ('http://localhost:3000' + indirizzo);
-            
-            return ('http://172.19.38.131:3000' + indirizzo);
+            return ('http://localhost:3000' + indirizzo);
         }
 })
 
