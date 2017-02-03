@@ -1,4 +1,4 @@
-<ion-view title="" hide-back-button="true" id="gestioneCollaborazioni">
+<ion-view title="" hide-back-button="true" id="gestioneCollaborazioni" cache-view="false" ng-controller="gestioneCollaborazioniCtrl">
   <ion-nav-buttons side="left" class="has-header">
     <a ui-sref="side-menu21.menuLogopedista" class="button icon-left ion-chevron-left button-clear button-white">&nbsp;Back</a>
     </ion-nav-buttons>
@@ -7,21 +7,11 @@
     <h4 id="gestioneCollaborazioni-heading32" style="color:#0F71DE;">Nuove richieste</h4>
     <div class="item item-body" id="gestioneCollaborazioni-list-item-container1">
       <ion-list id="gestioneCollaborazioni-list14">
-        <ion-list id="gestioneCollaborazioni-list16">
-          <ion-item class="item-icon-right positive" id="gestioneCollaborazioni-list-item16">Nome Cognome
+          <ion-list id="gestioneCollaborazioni-list16">
+          <ion-item class="item-icon-right positive" id="gestioneCollaborazioni-list-item16" ng-repeat="sospeso in sospesi" ng-model="sospesi">{{sospeso.nome}} {{sospeso.cognome}}
             <i class="icon ion-android-arrow-dropleft"></i>
-            <ion-option-button class="button-assertive">Rifiuta</ion-option-button>
-            <ion-option-button class="button-balanced">Accetta</ion-option-button>
-          </ion-item>
-          <ion-item class="item-icon-right positive" id="gestioneCollaborazioni-list-item17">Nome Cognome
-            <i class="icon ion-android-arrow-dropleft"></i>
-            <ion-option-button class="button-assertive">Rifiuta</ion-option-button>
-            <ion-option-button class="button-balanced">Accetta</ion-option-button>
-          </ion-item>
-          <ion-item class="item-icon-right positive" id="gestioneCollaborazioni-list-item18">Nome Cognome
-            <i class="icon ion-android-arrow-dropleft"></i>
-            <ion-option-button class="button-assertive">Rifiuta</ion-option-button>
-            <ion-option-button class="button-balanced">Accetta</ion-option-button>
+            <ion-option-button class="button-assertive" ng-click="rifiuta(sospeso.paziente, $index)" ng-model="sospeso.paziente">Rifiuta</ion-option-button>
+            <ion-option-button class="button-balanced" ng-click="accetta(sospeso.paziente, $index)" ng-model="sospeso.paziente">Accetta</ion-option-button>
           </ion-item>
         </ion-list>
       </ion-list>
@@ -30,24 +20,16 @@
     <form id="gestioneCollaborazioni-form21" class="list">
       <label class="item item-input" id="gestioneCollaborazioni-search7" name="paziente">
         <i class="icon ion-search placeholder-icon"></i>
-        <input type="search" placeholder="Cerca Paziente">
+        <input type="search" placeholder="Cerca Paziente" ng-model="nome">
       </label>
       <div class="item item-body" id="gestioneCollaborazioni-list-item-container3">
         <ion-list id="gestioneCollaborazioni-list20">
           <ion-list id="gestioneCollaborazioni-list19">
-            <ion-item class="item-icon-right positive" id="gestioneCollaborazioni-list-item22">Nome Cognome
-              <i class="icon ion-android-arrow-dropleft"></i>
+            <ion-item class="item-icon-right positive" id="gestioneCollaborazioni-list-item16" ng-repeat="accettato in accettati | orderBy:'nome' | filter: nome">{{accettato.nome}} {{accettato.cognome}}
+            <i class="icon ion-android-arrow-dropleft"></i>
               <ion-option-button class="button-assertive">Elimina</ion-option-button>
             </ion-item>
-            <ion-item class="item-icon-right positive" id="gestioneCollaborazioni-list-item23">Nome Cognome
-              <i class="icon ion-android-arrow-dropleft"></i>
-              <ion-option-button class="button-assertive">Elimina</ion-option-button>
-            </ion-item>
-            <ion-item class="item-icon-right positive" id="gestioneCollaborazioni-list-item25">Nome Cognome
-              <i class="icon ion-android-arrow-dropleft"></i>
-              <ion-option-button class="button-assertive">Elimina</ion-option-button>
-            </ion-item>
-          </ion-list>
+           </ion-list>
         </ion-list>
       </div>
     </form>

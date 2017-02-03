@@ -1,0 +1,18 @@
+<ion-view title="" hide-back-button="true" id="codiceVerifica" cache-view="false">
+  <ion-nav-buttons side="left" class="has-header">
+  <!-- modificare ui-sref in base al tipo di utente-->
+    <a ui-sref="registrazioneUtente" class="button icon-left ion-chevron-left button-clear button-white">&nbsp;Back</a>
+  </ion-nav-buttons>
+  <ion-content padding="true" class="has-header">
+      <form name="codiceVerifica" ng-model="codiceVerifica" id="codiceVerifica-form10" class="list" ng-controller="codiceVerificaCtrl" novalidate>
+      <h2 id="codiceVerifica-heading27" style="color:#FF1300;text-align:center;">Codice di Verifica</h2>
+      <h5 id="codiceVerifica-heading28" style="color:#0F71DE; text-align:center;">Inserisci il codice di 6 cifre ricevuto per email</h5>
+      <ion-list id="codiceVerifica-list9">
+          <label class="item item-input" id="codiceVerifica-input13" name="codice">
+          <input type="number" placeholder="Codice" ng-model="codice" name="codice" id="codice" ng-minlength="6" ng-maxlength="6" required>
+          </label>
+          <input style="font-weight:500;color:#FFFFFF;font-size:20px;" class="button button-positive  button-block" type="submit" id="submit" value="Invia" ng-click="invia()" ng-disabled="flag" ng-model="flag">         
+        </ion-list>
+        </form>
+  </ion-content>
+</ion-view>

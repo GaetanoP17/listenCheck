@@ -1,20 +1,29 @@
-<ion-view title="" hide-back-button="true" id="cercaLogopedista">
+<ion-view title="" hide-back-button="true" id="cercaLogopedista" cache-view="false">
   <ion-nav-buttons side="left" scroll="false" class="has-header">
     <a ui-sref="side-menu21.menuUtente" class="button icon-left ion-chevron-left button-clear button-white">&nbsp;Back</a>
   </ion-nav-buttons>
   <ion-content padding="true" scroll="false" class="has-header">
-    <h3 id="cercaLogopedista-heading9" style="color:#FF1300;text-align:center;">Logopedista</h3>
-    <form id="cercaLogopedista-form8" class="list">
+    <h3 id="cercaLogopedista-heading9" style="color:#FF1300;text-align:center;">Terapista</h3>
+    <h5 id="cercaLogopedista-heading29" style="color:#0F71DE; text-align:left;">Il tuo terapista</h5>
+    <ion-list>
+        <ion-item>
+            <button class="button button-small button-assertive icon-center ion-close-round" ng-click="disassociati()" ng-disabled="disassociaButton" ng-model="disassociaButton"></button> &nbsp;&nbsp;
+            {{mostraNome()}} 
+        </ion-item>
+      </ion-list>
+    <h5 id="cercaLogopedista-heading30" style="color:#0F71DE; text-align:left;">I terapisti di ListenCheck</h5>
+    <form id="cercaLogopedista-form8" class="list" ng-controller="cercaLogopedistaCtrl">
       <label class="item item-input" id="cercaLogopedista-search1" name="cerca">
         <i class="icon ion-search placeholder-icon"></i>
-        <input type="search" placeholder="Cerca Logopedista">
+        <input type="search" placeholder="Cerca Terapista" ng-model="nome">
       </label>
       <div class="spacer" style="width: 300px; height: 15px;"></div>
-      <label class="item item-select" id="cercaLogopedista-select5" name="logopedisti">
-        <span class="input-label"></span>
-        <select></select>
-      </label>
+      <ion-list>
+        <ion-item ng-repeat="persona in persone  | orderBy:'nome' | filter: nome">
+            <button class="button button-small button-positive icon-center ion-person-add" ng-click="invia(persona.email)" ng-model="persona.email" ng-disabled="!disassociaButton"></button> &nbsp;&nbsp;
+            {{persona.nome}} {{persona.cognome}} - {{persona.citta}}
+        </ion-item>
+      </ion-list>
     </form>
-    <button id="cercaLogopedista-button19" style="font-weight:500;font-size:20px;" class="button button-positive  button-block icon-left ion-person-add">Invia richiesta</button>
   </ion-content>
 </ion-view>

@@ -5,6 +5,13 @@ angular.module('app.services', [])
             return ('http://localhost:3000' + indirizzo);
         }
 })
+.factory('capitalize', function()
+{
+    return function(stringa)
+    {
+        return stringa = stringa.charAt(0).toUpperCase() + stringa.substring(1);
+    }
+})
 
 .service("esercizio", function() {
     this.ascolti;
@@ -36,3 +43,52 @@ angular.module('app.services', [])
             this.idSounds.push(id);
     };
 })
+.service("registrazione", function ()
+{
+    this.utente;
+    this.genitore;
+    this.codice;
+    
+    this.setUtente = function(nuovoUtente)
+    {
+        this.utente=nuovoUtente;
+    };
+    
+    this.setGenitore = function(nuovoGenitore)
+    {
+        this.genitore=nuovoGenitore;
+    };
+    this.setCodice = function(nuovoCodice)
+    {
+        this.codice=nuovoCodice;
+    }
+    
+    this.reset = function()
+    {
+        this.utente={};
+        this.genitore={};
+        this.codice=null;
+    };
+    
+    this.getUtente = function()
+    {
+        return this.utente;
+    };
+    
+    this.getGenitore = function()
+    {
+        return this.genitore;
+    };
+    this.getCodice = function()
+    {
+        return this.codice;
+    }
+})
+
+.factory('checkValue', function()
+{
+    return function(value1,value2)
+    {
+        return value1 === value2;
+    };
+});
