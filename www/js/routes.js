@@ -153,6 +153,12 @@ angular.module('app.routes', [])
     templateUrl: 'View/gestioneCommunity.html',
     controller: 'gestioneCommunityCtrl'
   })
+  
+  .state('codiceVerifica', {
+    url: '/codiceVerifica',
+    templateUrl: 'View/codiceVerifica.html',
+    controller: 'codiceVerificaCtrl'
+  })
 
 $urlRouterProvider.otherwise('/login');
 

@@ -1,79 +1,281 @@
 angular.module('app.controllers', [])
   
-.controller('menuAdminCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
+.controller('menuAdminCtrl', ['$scope', '$stateParams', 
 function ($scope, $stateParams) {
 
 
 }])
    
-.controller('menuLogopedistaCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
+.controller('menuLogopedistaCtrl', ['$scope', '$stateParams', 
 function ($scope, $stateParams) {
 
 
 }])
    
-.controller('menuUtenteCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
+.controller('menuUtenteCtrl', ['$scope', '$stateParams', 
 function ($scope, $stateParams) {
 
 
 }])
    
-.controller('profiloUtenteCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
-
-
-}])
-   
-.controller('disassociaLogoCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
-
-
-}])
-   
-.controller('gestioneCollaborazioniCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
-
-
-}])
-   
-.controller('side-menu21Ctrl', ['$scope', '$stateParams', '$cookies',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, $cookies) 
+.controller('profiloUtenteCtrl', ['server','checkValue', 'capitalize', '$scope', '$stateParams','$http','$cookies','$ionicPopup','$location', 
+function (server, checkvalue, capitalize, $scope, $stateParams, $http, $cookies, $ionicPopup, $location) 
 {
-    $scope.mostraNome=function()
+    //metodo per recuperare i cookies
+    var oggettoAccount=$cookies.getObject('account');
+    
+    $scope.reCF=/^[A-Za-z]{6}[0-9]{2}[A-Za-z]{1}[0-9]{2}[A-Za-z]{1}[0-9]{3}[A-Za-z]{1}$/;
+    $scope.rePass=/(?=.*\d)(?=.*[a-zA-Z]).{8,}/;
+    $scope.email= oggettoAccount.email;
+    $scope.password="";
+    $scope.passwordconferma="";
+    //alert($scope.email);
+    
+    $http.post(server('/profiloUtente'), {email: $scope.email})
+            .success(function(data)
+            {
+                $scope.nome=data.nome;
+                $scope.cognome=data.cognome;
+                $scope.dataN=new Date(data.data);
+                $scope.sesso=data.sesso;
+                $scope.cf=data.cf;
+                $scope.telefono=data.telefono;
+                $scope.citta=data.citta;
+                $scope.pass=data.pass;
+            })
+             .error(function()
+                {
+                    $ionicPopup.alert({
+                    title: 'ListenCheck',
+                    template: 'Problemi con il server...Riprovare più tardi'
+                    });
+                });
+    $scope.salva=function()
+    {
+        if(isValidForm())
+        {
+            //scorciatoia per garantire simmetrie tra le date lato client e server
+            //sul server infatti viene registrata con un giorno in meno
+            var data= new Date($scope.dataN);
+            data.setDate(data.getDate()+1);
+            
+            if($scope.password !== "" ) 
+            {
+                $scope.pass=$scope.password;
+            }
+            
+            $http.post(server('/profiloUtente/update'), {email: $scope.email, nome: capitalize($scope.nome), cognome: capitalize($scope.cognome), data: data, sesso: $scope.sesso, cf: $scope.cf.toUpperCase(), telefono: $scope.telefono, citta: capitalize($scope.citta), pass: $scope.pass})
+            .success(function(data)
+            {
+                if(data === 'Done')
+                {
+                    $ionicPopup.alert({
+                    title: 'Listen Check',
+                    template: 'Modifiche avvenute con successo'
+                    });
+                    $location.path('/Menu/menuUtente');
+                }
+                                 
+             })
+             .error(function()
+                {
+                    $ionicPopup.alert({
+                    title: 'ListenCheck',
+                    template: 'Problemi con il server...Riprovare più tardi'
+                    });
+                });
+        }
+    }
+    
+    function isValidForm()
+    {
+        valid=true;
+        errore="";
+        flag=false;
+        
+        
+        if($scope.profilo.$pristine) 
+        {
+            $location.path('/Menu/menuUtente');
+        }
+        else 
+        {
+            //validazione della form
+            if (!checkvalue($scope.password,$scope.passwordconferma))
+            {
+                errore= errore+"-- Le due password non coincidono <br>";
+                flag=true;
+            }
+            if($scope.profilo.cf.$invalid)
+            {
+                errore= errore+"-- Il formato del codice fiscale non è corretto <br>";
+                flag=true;
+            }
+            if($scope.profilo.tel.$invalid)
+            {
+                errore= errore+"-- Il formato del numero del telefono non è corretto <br>";
+                flag=true;
+            }
+            if($scope.profilo.$invalid && $scope.password !== "")
+            {
+                alert("controllo la pass");
+                errore= errore+"-- La password deve contenere almeno 8 caratteri, di cui almeno un numero e una lettera";
+                flag=true;
+            }
+            if (flag)
+            {
+                valid=false;         
+                $ionicPopup.alert({
+                 title: 'Errore Compilazione',
+                 template: errore
+                 });
+            }
+            return valid;
+        }
+    }
+}])
+   
+.controller('disassociaLogoCtrl', ['$scope', '$stateParams', 
+function ($scope, $stateParams) {
+
+
+}])
+   
+.controller('gestioneCollaborazioniCtrl', ['server','$scope', '$stateParams','$http','$cookies','$ionicPopup', 
+function (server, $scope, $stateParams, $http, $cookies, $ionicPopup) 
+{
+    var terapista=$cookies.getObject('account').email;
+    var nome=$cookies.getObject('account').nome;
+    var cognome=$cookies.getObject('account').cognome;
+    
+    $scope.pazienti;
+    $scope.accettati= new Array();
+    $scope.sospesi= new Array();
+    
+    $http.post(server('/gestioneCollaborazioni'), {email: terapista})
+            .success(function(data)
+            {
+                $scope.pazienti=data;
+                for(var i=0; i<$scope.pazienti.length; i++)
+                {
+                    if($scope.pazienti[i].stato === 0 )
+                        $scope.sospesi.push($scope.pazienti[i]);
+                    else $scope.accettati.push($scope.pazienti[i]);
+                }    
+            })
+            .error(function()
+            {
+                $ionicPopup.alert({
+                title: 'ListenCheck',
+                template: "Problemi con il server...Riprovare più tardi"
+                });
+            });
+    $scope.accetta=function(paziente,indice)
     {
         
+        $http.post(server('/gestioneCollaborazioni/accetta'), {paziente: paziente, terapista: terapista, nome: nome, cognome: cognome})
+            .success(function(data)
+            {
+                if( data === "Done")
+                {
+                  
+                    $scope.accettati.push($scope.sospesi[indice]);
+                    $scope.sospesi.splice(indice,1);
+                    $ionicPopup.alert({
+                    title: 'ListenCheck',
+                    template: "Richiesta di collaborazione accettata con successo"
+                    });
+                }
+            })
+            .error(function()
+            {
+                $ionicPopup.alert({
+                title: 'ListenCheck',
+                template: "Problemi con il server...Riprovare più tardi"
+                });
+            });
+    }
+    $scope.rifiuta=function(paziente,indice)
+    {
+        $http.post(server('/gestioneCollaborazioni/rifiuta'), {paziente: paziente, terapista: terapista, nome: nome, cognome: cognome})
+            .success(function(data)
+            {
+                if( data === "Done")
+                {
+                    $scope.sospesi.splice(indice,1);
+                    $ionicPopup.alert({
+                    title: 'ListenCheck',
+                    template: "Richiesta di collaborazione rifiutata"
+                });
+            }   
+            })
+            .error(function()
+            {
+                $ionicPopup.alert({
+                title: 'ListenCheck',
+                template: "Problemi con il server...Riprovare più tardi"
+                });
+            });
+    }
+
+}])
+   
+.controller('side-menu21Ctrl', ['$scope', '$stateParams', '$cookies',
+function ($scope, $stateParams, $cookies) 
+{
+    var test=true;
+    var tipo= $cookies.getObject('account').type;
+    $scope.flag=true;
+    
+    if(tipo === "L")
+        $scope.flag=false;
+    
+     $scope.mostraNome=function()
+    {
+        if(test)
         return $cookies.getObject('account').email;
     };
     
-
+    $scope.logout=function()
+    {
+        $cookies.remove('account');
+        test=false;
+    }
 }])
    
-.controller('loginCtrl', ['server', '$scope', '$stateParams', '$http', '$cookies','$location',
-  function (server, $scope, $stateParams, $http, $cookies, $location)
+.controller('loginCtrl', ['server', '$scope', '$stateParams', '$http', '$cookies','$location','$ionicPopup',
+  function (server, $scope, $stateParams, $http, $cookies, $location, $ionicPopup)
   {
+    $scope.email ="";
+    $scope.password="";
     $scope.invia=function()
     {
-      $http.post(server('/login'), {email: $scope.email,password: $scope.password})
-      .success(function(data)
-      {
-          if(data === "Nologin")
-              alert("Dati di accesso errati");
-          else 
-          {
+        
+        if($scope.email === "" || $scope.password === "")
+        {
+            //se non compila i campi non parte la richiesta
+        }
+        else
+        {
+             $http.post(server('/login'), {email: $scope.email,password: $scope.password})
+            .success(function(data)
+            {
+             if(data === "Nologin")
+            {
+              $ionicPopup.alert({
+                    title: 'ListenCheck',
+                    template: 'Dati di accesso errati'
+                    });
+            }
+            else if( data === "duplicate")
+            {
+              $ionicPopup.alert({
+                    title: 'ListenCheck',
+                    template: 'Hai effettuato l\'accesso già da un altro dispositivo'
+                    });
+            }
+            else 
+            {
               $cookies.putObject('account', data);
               if(data.type === "A")
               {
@@ -92,13 +294,17 @@ function ($scope, $stateParams, $cookies)
               //metodo per recuperare i cookies
               //var oggettoAccount=$cookies.getObject('account');
               //alert(oggettoAccount.state);
-          }  
-      })
-        .error(function()
-      {
-        alert("Problemi con il server...Riprovare più tardi");
-      });
-    };
+            }  
+             })
+             .error(function()
+            {
+                $ionicPopup.alert({
+                    title: 'ListenCheck',
+                    template: 'Problemi con il server...Riprovare più tardi'
+                    });
+            });
+        };
+    }
   }])
    
 .controller('menuEsercitazioneCtrl', ['server', 'esercizio', '$scope', '$stateParams', '$location', '$cookies', '$http', '$ionicPopup',
@@ -783,75 +989,527 @@ function (apprendimento, server, $scope, $stateParams, $http, $location, $ionicP
     }
 }])
    
-.controller('condividiSuonoCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
+.controller('condividiSuonoCtrl', ['$scope', '$stateParams', 
 function ($scope, $stateParams) {
 
 
 }])
    
-.controller('cercaLogopedistaCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
+.controller('cercaLogopedistaCtrl', ['server','$scope', '$stateParams','$http','$ionicPopup','$location','$cookies','$q','$window', 
+function (server, $scope, $stateParams, $http, $ionicPopup, $location, $cookies, $q, $window) 
+{
+    var nome=$cookies.getObject('account').nome;
+    var cognome=$cookies.getObject('account').cognome;
+    var paziente=$cookies.getObject('account').email;
+    var stato= $cookies.getObject('account').state;
+    var tipo=$cookies.getObject('account').type;
+    $scope.disassociaButton;
+    $scope.persone;
+    $scope.logoPersonale;
+    $scope.nomeL="Nessun Terapista";
+    $scope.cognomeL="";
+    
+    $http.post(server('/cercaLogopedista/check'), {email: paziente})
+        .success(function(data)
+        {
+            alert(data);
+            stato=parseInt(data);
+            var values={
+                        "email": paziente,
+                        "type": tipo,
+                        "state": stato,
+                        "nome": nome,
+                        "cognome": cognome
+                        };
+            $cookies.remove('account');
+            $cookies.putObject('account', values);
+            if(stato === 1)
+            {
+                $scope.disassociaButton=false;
+                var promise1=$http.post(server('/cercaLogopedista/mio'), {email:paziente});
+                var promise2=$http.post(server('/cercaLogopedista'), {});
+                var allpromise=$q.all([promise1,promise2]);
+                allpromise.then(function(values) 
+                {  
+                    $scope.logoPersonale=values[0].data;
+                    $scope.persone=values[1].data;
+
+                    for(var i=0; i<$scope.persone.length; i++)
+                    {
+                        if($scope.persone[i].email === $scope.logoPersonale)
+                        {
+                            $scope.nomeL=$scope.persone[i].nome;
+                            $scope.cognomeL=$scope.persone[i].cognome;
+                            $scope.persone.splice(i,1);
+                            break;
+                        }
+                    }
+                });
+            }
+            else
+            {
+                $scope.disassociaButton=true;
+                recuperaLogopedisti();
+            }
+        })
+        .error(function()
+        {
+            $ionicPopup.alert({
+            title: 'ListenCheck',
+            template: "Problemi con il server...Riprovare più tardi"
+            });
+        });
+            
+               
+    $scope.invia=function(email)
+    {    
+        $http.post(server('/cercaLogopedista/invia'), {email: email, nome: nome, cognome: cognome, paziente: paziente})
+            .success(function(data)
+            {
+                if(data === "Inviata")
+                {
+                    $ionicPopup.alert({
+                    title: 'ListenCheck',
+                    template: "Richiesta inviata con successo"
+                    });
+                    $location.path('/Menu/menuUtente');
+                }
+               
+            })
+            .error(function()
+            {
+                $ionicPopup.alert({
+                title: 'ListenCheck',
+                template: "Problemi con il server...Riprovare più tardi"
+                });
+            });
+    }
+    
+    $scope.mostraNome=function()
+    {
+        return $scope.nomeL+" "+$scope.cognomeL;
+    }
+    function recuperaLogopedisti()
+    {
+        $http.post(server('/cercaLogopedista'), {})
+                .success(function(data)
+                {
+                    $scope.persone=data;
+                })
+                .error(function()
+                {
+                    $ionicPopup.alert({
+                    title: 'ListenCheck',
+                    template: "Problemi con il server...Riprovare più tardi"
+                    });
+                });
+    }
+    $scope.disassociati=function()
+    {
+        var confirmPopup = $ionicPopup.confirm({
+            title: 'ListenCheck',
+            template: 'Sei sicuro di interrompere la collaborazione?'
+          });
+
+            confirmPopup.then(function(res)
+            {
+                if(res) 
+                {
+                    $http.post(server('/cercaLogopedista/disassocia'), {paziente: paziente})
+                    .success(function(data)
+                    {
+                        if(data === "Done")
+                        {
+                            var values={
+                                "email": paziente,
+                                "type": tipo,
+                                "state": 0,
+                                "nome": nome,
+                                "cognome": cognome
+                                };
+                            $cookies.remove('account');
+                            $cookies.putObject('account', values);
+                            $window.location.reload();
+                            $ionicPopup.alert({
+                            title: 'ListenCheck',
+                            template: "Disassociazione avvenuta con successo"
+                            });
+                            
+                        }
+
+                    })
+                    .error(function()
+                    {
+                        $ionicPopup.alert({
+                        title: 'ListenCheck',
+                        template: "Problemi con il server...Riprovare più tardi"
+                        });
+                    });
+                } 
+                else 
+                {
+                }
+            });
+        
+    }
+
+}])
+   
+.controller('menuProgressiPazienteCtrl', ['$scope', '$stateParams', 
 function ($scope, $stateParams) {
 
 
 }])
    
-.controller('menuProgressiPazienteCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
-
-
-}])
-
-.controller('progressiPazienteCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
+.controller('progressiPazienteCtrl', ['$scope', '$stateParams', 
 function ($scope, $stateParams) {
 
 
 }])
    
-.controller('registrazioneUtenteCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
+.controller('registrazioneUtenteCtrl', ['server', 'checkValue', 'capitalize', 'registrazione', '$scope', '$stateParams', '$http', '$ionicPopup','$location',
+function (server, checkvalue, capitalize, registrazione, $scope, $stateParams, $http, $ionicPopup, $location) 
+{
+    //espressioni regolari per validare la form
+    $scope.reCF=/^[A-Za-z]{6}[0-9]{2}[A-Za-z]{1}[0-9]{2}[A-Za-z]{1}[0-9]{3}[A-Za-z]{1}$/;
+    $scope.rePass=/(?=.*\d)(?=.*[a-zA-Z]).{8,}/;
+    
+    //permette di realizzare il two binding per usare successivamente i valori della data
+    $scope.dataN= { value: new Date()};
+    $scope.sesso="m";
+    
+    //variabile per abilitare/disabilitare il tasto registrati in base al valore dell'email
+    $scope.button=true;
+    
+    $scope.cf="";
+    $scope.nomeGenitore="";
+    $scope.cognomeGenitore="";
+        
+    $scope.checkemail= function()
+    {
+        $http.post(server('/registrazioneUtente/check'), {email: $scope.email})
+            .success(function(data)
+            {
+                if(data === "NoMatch")
+                {
+                    $scope.button=false;
+                }
+                else if(data === "Match")
+                {
+                    $ionicPopup.alert({
+                    title: 'ListenCheck',
+                    template: 'Email già utilizzata'
+                    });
+                }
+            })
+            .error(function()
+            {
+                $ionicPopup.alert({
+                title: 'ListenCheck',
+                template: "Problemi con il server...Riprovare più tardi"
+                });
+            });
+    };
+
+    //funzione per validare i vari campi della form e verificare le corrispondenze tra i campi che devono combaciare
+    function isValidForm()
+    {
+        valid=true;
+        errore="Tutti i campi sono obbligatori <br>";
+        flag=false;
+        
+        //validazione della form
+        if (!checkvalue($scope.email,$scope.emailConferma))
+        {
+            errore= errore+"-- Email e Reinserisci Email non coincidono  <br>";
+            flag=true;
+        }
+        if (!checkvalue($scope.password,$scope.passwordconferma))
+        {
+            errore= errore+"-- Le due password non coincidono <br>";
+            flag=true;
+        }
+        if($scope.registrazione.$pristine || flag || $scope.registrazione.$invalid)
+        {
+            valid=false; 
+            if($scope.registrazione.pw.$invalid)
+            {
+                errore= errore+"-- La password deve contenere almeno 8 caratteri, di cui almeno un numero e una lettera";
+            }
+            if($scope.registrazione.cf.$invalid)
+            {
+                errore= errore+"-- Il formato del codice fiscale non è corretto <br>";
+            }
+            if($scope.registrazione.tel.$invalid)
+            {
+                errore= errore+"-- Il formato del numero del telefono non è corretto <br>";
+            }
+                $ionicPopup.alert({
+                title: 'Errore Compilazione',
+                template: errore
+                });
+        }
+        return valid;
+    };
+    
+    $scope.ottieniCodice=function()
+    {
+        if(isValidForm())
+        {
+            
+            //preparazione della richiesta 
+            var data=$scope.dataN.value.toISOString().substring(0,10);
+            $scope.utente={email: $scope.email.toLowerCase(), password:$scope.password, nome: capitalize($scope.nome), cognome: capitalize($scope.cognome), sesso: $scope.sesso, dataDiNascita: data, tipo: 'U', stato: '0', p_iva: null, telefono: $scope.telefono,cf: $scope.cf.toUpperCase(),id_genitore: null, citta: capitalize($scope.citta), es_sospesa: null};
+            //memorizzo localmente tutti i valori relativi all'utente
+            registrazione.setUtente($scope.utente);
+            
+            //controllo se l'utente è minorenne e aggiungo le info relative al genitore
+            if($scope.minorenne)
+            {
+               $scope.genitore={nome: $scope.nomeGenitore, cognome: $scope.cognomeGenitore};
+               //memorizzo localmente le informazioni relative al genitore
+               registrazione.setGenitore($scope.genitore);
+            }
+            $http.post(server('/registrazioneUtente/codice'), {email: $scope.email.toLowerCase()})
+            .success(function(data)
+            {
+                //memorizzo localmente il codice di verifica ricevuto dal server
+                registrazione.setCodice(data.codice);
+                //ridiriggo l'utente alla pagina per l'inserimento del codice di verifica
+                $location.path('/codiceVerifica');
+            })
+            .error(function()
+            {
+                $ionicPopup.alert({
+                title: 'ListenCheck',
+                template: "Problemi con il server...Riprovare più tardi"
+                });
+            });
+            
+        }
+    };
+}])
+   
+.controller('recuperaPasswordCtrl', ['server','$scope', '$stateParams','$http', '$ionicPopup',
+function (server,$scope, $stateParams, $http, $ionicPopup) 
+{
+    $scope.recupera= function()
+    {
+        $http.post(server('/recuperaPassword'), {email: $scope.email.toLowerCase()})
+            .success(function(data)
+            {
+                if(data === "NoMatch")
+                {
+                    $ionicPopup.alert({
+                    title: 'ListenCheck',
+                    template: 'Non esiste un account associato all\'email inserita.'
+                    });
+                }
+                else if(data === "Inviata")
+                {
+                    $ionicPopup.alert({
+                    title: 'ListenCheck',
+                    template: 'Password inviata'
+                    });
+                }
+            })
+            .error(function()
+            {
+                $ionicPopup.alert({
+                title: 'ListenCheck',
+                template: "Problemi con il server...Riprovare più tardi"
+                });
+            });
+    };
+
+}])
+   
+.controller('registrazioneLogopedistaCtrl', ['server','checkValue','$scope', '$stateParams','$http','$ionicPopup','$location', 
+function (server, checkvalue, $scope, $stateParams, $http, $ionicPopup, $location) 
+{
+    //variabile per abilitare/disabilitare il tasto registrati in base al valore dell'email
+    $scope.button=true;
+    
+    $scope.checkemail= function()
+    {
+        $http.post(server('/registrazioneLogopedista/check'), {email: $scope.email})
+            .success(function(data)
+            {
+                if(data === "NoMatch")
+                {
+                    $scope.button=false;
+                }
+                else if(data === "Match")
+                {
+                    $ionicPopup.alert({
+                    title: 'ListenCheck',
+                    template: 'Email già utilizzata'
+                    });
+                }
+            })
+            .error(function()
+            {
+                $ionicPopup.alert({
+                title: 'ListenCheck',
+                template: "Problemi con il server...Riprovare più tardi"
+                });
+            });
+    };
+    $scope.invia=function()
+    {
+        //controllo per rendere l'alert bloccante
+        if(isValidForm())
+        {
+            
+           //preparazione della richiesta 
+            var data=$scope.dataN.value.toISOString().substring(0,10);
+            //$scope.utente={nome: $scope.nome, cognome: $scope.cognome, dataN: data, cf: $scope.cf, citta: $scope.citta, telefono: $scope.telefono, sesso: $scope.sesso, email: $scope.email, password:$scope.password};
+            $scope.utente={email: $scope.email.toLowerCase(), password:$scope.password, nome: $scope.nome, cognome: $scope.cognome,sesso: $scope.sesso, dataDiNascita: data, tipo: 'L', stato: '0', p_iva: $scope.p_iva, telefono: $scope.telefono, cf: "", id_genitore: null, citta: $scope.citta, es_sospesa: null};
+            
+            $http.post(server('/registrazioneLogopedista'), {utente: $scope.utente})
+            .success(function(data)
+            {
+                if(data === "Registrazione avvenuta con successo")
+                {
+                    var alertPopup = $ionicPopup.alert({
+                    title: 'ListenCheck',
+                    template: data
+                });
+
+                alertPopup.then(function(res) 
+                {
+                    $location.path('/Menu/menuAdmin');
+                });
+                }
+                else 
+                {
+                    $ionicPopup.alert({
+                    title: 'ListenCheck',
+                    template: "Problemi con la registrazione. Riprovare più tardi"
+                });
+                }  
+            })
+            .error(function()
+            {
+                $ionicPopup.alert({
+                title: 'ListenCheck',
+                template: "Problemi con il server...Riprovare più tardi"
+                });
+            });
+        }
+    };
+    function isValidForm()
+    {
+        valid=true;
+        errore="Tutti i campi sono obbligatori <br>";
+        flag=false;
+        
+        //validazione della form
+        if (!checkvalue($scope.email,$scope.emailConferma))
+        {
+            errore= errore+"-- Email e Reinserisci Email non coincidono  <br>";
+            flag=true;
+        }
+        if (!checkvalue($scope.password,$scope.passwordconferma))
+        {
+            errore= errore+"-- Le due password non coincidono <br>";
+            flag=true;
+        }
+        if($scope.registrazione.$pristine || $scope.flag || $scope.registrazione.$invalid)
+        {
+            valid=false;      
+            if($scope.registrazione.p_iva.$invalid)
+            {
+                errore= errore+"-- Il formato della partita iva non è corretto <br>";
+            }
+            if($scope.registrazione.tel.$invalid)
+            {
+                errore= errore+"-- Il formato del numero del telefono non è corretto <br>";
+            }
+                $ionicPopup.alert({
+                title: 'Errore Compilazione',
+                template: errore
+                });
+        }
+        return valid;
+    }
+
+}])
+   
+.controller('menuGestioneCommunityCtrl', ['$scope', '$stateParams', 
 function ($scope, $stateParams) {
 
 
 }])
    
-.controller('recuperaPasswordCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
+.controller('gestioneCommunityCtrl', ['$scope', '$stateParams', 
 function ($scope, $stateParams) {
 
 
 }])
-   
-.controller('registrazioneLogopedistaCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
 
+.controller('codiceVerificaCtrl', ['server', 'registrazione', '$scope', '$stateParams', '$http', '$ionicPopup', '$location',
+function (server, registrazione, $scope, $stateParams, $http, $ionicPopup, $location) 
+{    
+    $scope.flag=false;
+        $scope.invia=function()
+        {
+            if(isValidCodeForm())
+            {
+                $scope.flag=true;
+                //recupero le informazioni memorizzate relative all'utente
+                $scope.utente=registrazione.getUtente();
+                $scope.genitore=registrazione.getGenitore();
+                $scope.codiceB= registrazione.getCodice();
+                                
+                if($scope.codiceB === $scope.codice)
+                {
+                     $http.post(server('/registrazioneUtente'), {utente: $scope.utente, genitore: $scope.genitore})          
+                    .success(function(data)
+                    {
+                        if(data === "Registrazione avvenuta con successo")
+                        {
+                            var alertPopup = $ionicPopup.alert({
+                            title: 'ListenCheck',
+                            template: data
+                        });
 
-}])
-   
-.controller('menuGestioneCommunityCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+                        alertPopup.then(function(res) 
+                        {
+                            registrazione.reset();
+                            $location.path('/login');
+                        });
+                        }
+                    })
+                    .error(function()
+                    {
+                        $ionicPopup.alert({
+                        title: 'ListenCheck',
+                        template: "Problemi con il server...Riprovare più tardi"
+                        });
+                    });    
+                }
+                else 
+                {
+                    $ionicPopup.alert({
+                        title: 'ListenCheck',
+                        template: "Il codice inserito non è corretto. Riprovare."
+                    });
+                }                 
+            } 
+        }; 
+    //verifico che l'utente abbia inserito il codice di verifica
+    function isValidCodeForm()
+    {
+        if($scope.codiceVerifica.$invalid)
+        {
+            $ionicPopup.alert({
+                title: 'ListenCheck',
+                template: "Il codice di verifica deve essere di 6 cifre"
+                });
+            return false;
+        }
+        else return true;
+    };
 
-
-}])
-   
-.controller('gestioneCommunityCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
-
-
-}])
- 
+}]);
