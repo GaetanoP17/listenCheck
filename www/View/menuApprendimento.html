@@ -1,27 +1,21 @@
-<ion-view title="" hide-back-button="true" id="menuApprendimento">
+<ion-view title="" hide-back-button="true" id="menuApprendimento" cache-view="false" ng-controller="menuApprendimentoCtrl" ng-init="riempiSelect()">
   <ion-nav-buttons side="left" scroll="false" class="has-header">
     <a ui-sref="side-menu21.menuUtente" class="button icon-left ion-chevron-left button-clear button-white">&nbsp;Back</a>
     </ion-nav-buttons>
   <ion-content padding="true" scroll="false" class="has-header">
     <h3 id="menuApprendimento-heading3" style="color:#FF1300;text-align:center;">Apprendimento</h3>
+    <div class="spacer" style="width: 300px; height: 10px;"></div>
     <h4 id="menuApprendimento-heading22" style="color:#0F71DE;">Categoria:</h4>
     <form id="menuApprendimento-form5" class="list">
       <label class="item item-select" id="menuApprendimento-select4" name="categoria">
         <span class="input-label"></span>
-        <select>
-          <option>-</option>
-          <option>Ambiente</option>
-          <option>Animali e Insetti</option>
-          <option>Campane</option>
-          <option>Natura</option>
-          <option>Rumori vari</option>
-          <option>Sirene e Campane</option>
-          <option>Strumenti</option>
-          <option>Veicoli</option>
+        <select ng-model="selezione">
+            <option value="">--- Seleziona ---</option>
+            <option ng-repeat="opzione in categorie" value="{{opzione.value}}">{{opzione.categoria}}</option>
         </select>
       </label>
-      <div class="spacer" style="width: 300px; height: 27px;"></div>
-      <a ui-sref="apprendimento" id="menuApprendimento-button9" style="font-weight:500;font-size:20px;" class="button button-positive  button-block">Avvia</a>
+      <div class="spacer" style="width: 300px; height: 25px;"></div>
+      <a style="font-weight:500;font-size:20px;" ng-disabled="selezione==''" class="button button-positive  button-block" ng-click="imposta(selezione)">Avvia</a>
     </form>
   </ion-content>
 </ion-view>

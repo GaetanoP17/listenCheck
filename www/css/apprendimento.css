@@ -1,0 +1,104 @@
+#intestazione{
+    position: fixed;
+    left: 0px;
+    right: 0px; 
+    top: 46px;
+}
+#int_categoria{
+    position: absolute;
+    top: 5px;
+    width: 100%; 
+    text-align: center;
+}
+#int_categoria p{
+    font-weight: bold;
+    font-size: 26px;
+    color: red;
+}
+#int_play{
+    position: absolute;
+    width: 30px; 
+    left: 3px;
+    right: 2%; 
+    height: 30px; 
+    top: 35px;
+    z-index: 1;
+}
+#int_barra{
+    position: absolute;
+    left: 56px;
+    right: 3%; 
+    height: 30px;
+    background-color:#EEEEEE; 
+    top: 36px;
+    z-index: 2;
+}
+#loading{
+    position: absolute;
+    z-index: 2; 
+    width: 100%;
+    text-align: center;
+    top: 50px;
+    border: none!important;
+}
+#nomeFoto{
+    position: absolute;
+    left: 0px;
+    right: 0px; 
+    top: 83px;
+    font-size: 21px;
+    color: #0F71DE;
+    text-align: center; 
+    font-weight: bold;
+}
+#contenuto{
+    position: absolute;
+    left: 0px;
+    right: 0px; 
+    top: 100px;
+}
+.foto{
+    position: absolute;
+    top: 10px;
+    padding: 1px;
+    border: 6px double #0F71DE;
+    z-index: 1;
+}
+#sx,#dx{
+    position: absolute;
+    width: 30px; 
+    height: 30px; 
+    top: 117px;
+    z-index: 0;
+}
+#dati{
+    position: absolute;
+    left: 8px;
+    right: 0px; 
+    top: 365px;
+}
+.play_on{
+    color: #DE1414!important;
+}
+.play_off{
+    color: #0F71DE!important;
+}
+.progressbar{
+    position:absolute;
+    height:100%;
+    background-color:#0F71DE;
+    top:0px;
+}
+.textbar{ 
+    position:absolute;
+    height:100%;
+    color: white;
+    font-size: 16px;
+    top: 5px;
+    text-align: center;
+}
+.tasti:active{
+    color: yellow;
+}
+
+

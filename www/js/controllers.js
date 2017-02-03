@@ -101,27 +101,34 @@ function ($scope, $stateParams, $cookies)
     };
   }])
    
-.controller('menuEsercitazioneCtrl', ['server', 'esercizio', '$scope', '$stateParams', '$location', '$cookies', '$http', 
-function (server, esercizio, $scope, $stateParams, $location, $cookies, $http) {
-    
-    $scope.visualizza = 0;
-    esercizio.reset();
-    var email = $cookies.getObject('account').email;
-    var parameter = JSON.stringify({account: email});
-    $http.post(server('/esercitazione/sospesa'), parameter)
-    .success(function(data, status, headers, config){
-        if (data.sospesa){
-            esercizio.idEsercitazione = data.id_Es;
-            esercizio.setExe(data.tipo,data.fascia,email);
-            esercizio.elencoRis = data.esiti;                    
-            $location.path('esercitazione');                
-        }else $scope.visualizza = 1;      
-    })
-    .error(function()
-    {
-        alert("Problemi ripristino Esercitazione...Riprovare più tardi");
-        $location.path('/Menu/menuUtente');
-    });
+.controller('menuEsercitazioneCtrl', ['server', 'esercizio', '$scope', '$stateParams', '$location', '$cookies', '$http', '$ionicPopup',
+function (server, esercizio, $scope, $stateParams, $location, $cookies, $http, $ionicPopup) {
+     
+    $scope.sospesa=function() {
+        $scope.visualizza = 0;
+        esercizio.reset();
+        var email = $cookies.getObject('account').email;
+        var parameter = JSON.stringify({account: email});
+        $http.post(server('/esercitazione/sospesa'), parameter)
+        .success(function(data, status, headers, config){
+            if (data.sospesa){
+                esercizio.idEsercitazione = data.id_Es;
+                esercizio.setExe(data.tipo,data.fascia,email);
+                esercizio.elencoRis = data.esiti;                    
+                $location.path('esercitazione');                
+            }else $scope.visualizza = 1;      
+        })
+        .error(function()
+        {
+            var alert = $ionicPopup.confirm({
+                title: 'ListenCheck',
+                template: 'Problemi ripristino Esercitazione! Riprovare più tardi'
+            });
+            alert.then(function() {
+                $location.path('/Menu/menuUtente');
+            });
+        });
+    }
     
     $scope.avvia=function(tipo,fascia) {
         esercizio.reset();
@@ -133,8 +140,13 @@ function (server, esercizio, $scope, $stateParams, $location, $cookies, $http) {
             })
             .error(function()
             {
-                alert("Problemi avvio Esercitazione...Riprovare più tardi");
-                $location.path('/Menu/menuUtente');
+                var alert = $ionicPopup.confirm({
+                    title: 'ListenCheck',
+                    template: 'Problemi avvio Esercitazione! Riprovare più tardi'
+                });
+                alert.then(function() {
+                    $location.path('/Menu/menuUtente');
+                });
             }); 
     } 
 }])
@@ -199,14 +211,19 @@ function (esercizio, server, $scope, $http, $stateParams, $location, $cookies, $
             $http.post(server('/esercitazione/inizializza'), parameter)
             .success(function(data, status, headers, config){
                 if(data === 'NoSounds'){
-                    alert(" Elementi non trovati...Riprovare più tardi");
-                    $location.path('/Menu/menuUtente');
+                    var alert = $ionicPopup.confirm({
+                        title: 'ListenCheck',
+                        template: 'Elementi non trovati! Riprovare più tardi'
+                    });
+                    alert.then(function() {
+                        $location.path('/Menu/menuUtente');
+                    });
                 }
                 else
                 {
                     $scope.id = data[0].id;
                     $scope.nome = data[0].nome;
-                    $scope.giubox = $sce.trustAsResourceUrl(server('/sounds/'+$scope.id+'.mp3'));
+                    $scope.jukebox = $sce.trustAsResourceUrl(server('/sounds/'+$scope.id+'.mp3'));
                     var x = Math.floor((Math.random() * 4));
                     var n = 0;
                     while(true){                
@@ -269,8 +286,13 @@ function (esercizio, server, $scope, $http, $stateParams, $location, $cookies, $
             })
             .error(function()
             {
-                alert("Problemi creazione quesito...Riprovare più tardi");
-                $location.path('/Menu/menuUtente');
+                var alert = $ionicPopup.confirm({
+                    title: 'ListenCheck',
+                    template: 'Problemi creazione quesito! Riprovare più tardi'
+                });
+                alert.then(function() {
+                    $location.path('/Menu/menuUtente');
+                });                
             });
         }
     }
@@ -280,7 +302,7 @@ function (esercizio, server, $scope, $http, $stateParams, $location, $cookies, $
             $scope.progressA = (100*n)/max+'%';
     }
                
-    function avvia(){
+    function avvia(){ 
         var med,max;
         if(innerWidth < 530){
             max = (innerWidth-30) / 2;
@@ -328,7 +350,8 @@ function (esercizio, server, $scope, $http, $stateParams, $location, $cookies, $
     
     $scope.controlla=function(){
         var esito;
-        if($scope.scelta != undefined){           
+        if($scope.scelta != undefined){
+            $scope.disabledButtonA = 1;
             if($scope.scelta === $scope.risCorretta)
             {
                 $("#si").get(0).play();                
@@ -361,8 +384,13 @@ function (esercizio, server, $scope, $http, $stateParams, $location, $cookies, $
             })
             .error(function()
             {
-                alert("Problemi con il server...Riprovare più tardi");
-                $location.path('/Menu/menuUtente');
+                var alert = $ionicPopup.confirm({
+                    title: 'ListenCheck',
+                    template: 'Problemi con il Server! Riprovare più tardi'
+                });
+                alert.then(function() {
+                    $location.path('/Menu/menuUtente');
+                }); 
             });            
         }        
     }
@@ -488,8 +516,13 @@ function (esercizio, server, $scope, $http, $stateParams, $location, $cookies, $
             })
             .error(function()
             {
-                alert("Problemi terminazione Esercitazione...Riprovare più tardi");
-                $location.path('/Menu/menuUtente');
+                var alert = $ionicPopup.confirm({
+                    title: 'ListenCheck',
+                    template: 'Problemi terminazione Esercitazione! Riprovare più tardi'
+                });
+                alert.then(function() {
+                    $location.path('/Menu/menuUtente');
+                }); 
             });          
     }
     
@@ -520,8 +553,13 @@ function (esercizio, server, $scope, $http, $stateParams, $location, $cookies, $
             })
             .error(function()
             {
-                alert("Problemi con il Server...Riprovare più tardi");
-                $location.path('/Menu/menuUtente');
+                var alert = $ionicPopup.confirm({
+                    title: 'ListenCheck',
+                    template: 'Problemi con il Server! Riprovare più tardi'
+                });
+                alert.then(function() {
+                    $location.path('/Menu/menuUtente');
+                }); 
             });
         });       
     }
@@ -616,20 +654,133 @@ function (esercizio, server, $scope, $stateParams, $sce) {
     }
 }])
    
-.controller('menuApprendimentoCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
-
-
+.controller('menuApprendimentoCtrl', ['server', 'apprendimento', '$scope', '$stateParams', '$location', '$http', '$ionicPopup',
+function (server, apprendimento, $scope, $stateParams, $location, $http, $ionicPopup) {
+    $scope.selezione = "";
+    
+    $scope.riempiSelect = function() {
+        $http.post(server('/apprendimento/categorie'))
+            .success(function(data, status, headers, config){
+                $scope.categorie = data;                             
+            })
+            .error(function()
+            {
+                var alert = $ionicPopup.confirm({
+                    title: 'ListenCheck',
+                    template: 'Problemi con il Server! Riprovare più tardi'
+                });
+                alert.then(function() {
+                    $location.path('/Menu/menuUtente');
+                }); 
+            });  
+    }
+    
+    $scope.imposta = function(preferenza) {
+        var option =  preferenza;
+        var splitStr = option.toLowerCase().split(' ');
+        for (var i = 0; i < splitStr.length; i++) {
+            if(splitStr[i] === 'e') continue;
+            else
+                splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+        }
+        var scelta =  splitStr.join(' ');
+        apprendimento.setCategoria(scelta);
+        $location.path('apprendimento');        
+    }
 }])
    
-.controller('apprendimentoCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
-
-
+.controller('apprendimentoCtrl', ['apprendimento', 'server', '$scope', '$stateParams', '$http', '$location', '$ionicPopup', '$sce',
+function (apprendimento, server, $scope, $stateParams, $http, $location, $ionicPopup, $sce) {
+    var med = innerWidth/2;
+    $(".foto").css("left", med-124+"px");
+    $("#sx").css("left", med-169+"px");
+    $("#dx").css("right", med-169+"px");
+    $scope.index = 0;
+    $scope.mostra = 0;
+    $scope.imgCarica = 0;
+    $scope.prev = 1;
+    $scope.next = 0;
+    $scope.nomeCategoria = apprendimento.selezione;    
+    
+    var parameter = JSON.stringify({categoria: apprendimento.selezione.toLowerCase()});            
+    $http.post(server('/apprendimento/suoniCategoria'), parameter)
+        .success(function(data, status, headers, config){
+            if(data === "NoSounds")
+            {
+                var alertPopup = $ionicPopup.alert({
+                title: 'Apprendimento',
+                template: "Suoni non trovati"
+                });
+                alertPopup.then(function(res) {
+                    $location.path('/Menu/menuUtente');            
+                });
+            }
+            else
+            {   
+                $scope.nSounds = data.length;
+                apprendimento.setSuoni(data); 
+                $scope.carica(data[0]);   
+                $scope.mostra = 1;
+            }                              
+        })
+        .error(function()
+        {
+            var alert = $ionicPopup.confirm({
+                title: 'ListenCheck',
+                template: 'Problemi con il Server! Riprovare più tardi'
+            });
+            alert.then(function() {
+                $location.path('/Menu/menuUtente');
+            });
+        });      
+    
+    $scope.carica = function(app) {
+        if($scope.index === 0)$scope.prev = 1;
+        else if ($scope.index === apprendimento.suoni.length-1)$scope.next = 1;
+        else{
+            $scope.prev = 0;
+            $scope.next = 0;            
+        }
+        var suono = app;
+        $scope.readyImg = 0;
+        $scope.readySounds = 0;
+        $scope.jukebox = $sce.trustAsResourceUrl(server('/sounds/'+suono.id+'.mp3'));
+        $scope.immagine = server('/images/'+suono.id+'.png');  
+        $scope.nome = suono.nome;
+        $scope.decibel = suono.decibel.replace("_", " - ");;
+        $scope.frequenza = suono.frequenza.replace("_", " - ");;
+    }
+    
+    $scope.ready = function() {
+        var n = $scope.index + 1;
+        $scope.imgCarica = 1;
+        $scope.progressA = (100*n)/$scope.nSounds+'%';
+        $("#suono").get(0).play(); 
+        $("#play").addClass("play_on").removeClass("play_off");
+        $("#play :first-child").css("font-size","24px");
+    }
+    
+    $scope.insertCoin = function(verso){
+        if(verso === '-')
+            $scope.index --;
+        else
+            $scope.index ++;
+        $scope.imgCarica = 0;
+        $scope.carica(apprendimento.suoni[$scope.index]);
+    }
+    
+    $scope.stopRiproduzione = function(){
+        $("#play").addClass("play_off").removeClass("play_on");          
+        $("#play :first-child").css("font-size","33px");
+    }
+    
+    $scope.riproduci = function() {
+        if($("#suono").prop('ended')){
+            $("#suono").get(0).play();
+            $("#play").addClass("play_on").removeClass("play_off");
+            $("#play :first-child").css("font-size","24px");
+        }                    
+    }
 }])
    
 .controller('condividiSuonoCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
@@ -655,7 +806,7 @@ function ($scope, $stateParams) {
 
 
 }])
-   
+
 .controller('progressiPazienteCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName

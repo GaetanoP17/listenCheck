@@ -1,4 +1,5 @@
-<ion-view title="" hide-back-button="true" id="apprendimento">
+<ion-view title="" hide-back-button="true" id="apprendimento" cache-view="false" ng-controller="apprendimentoCtrl" ng-init="">
+  <link href="css/apprendimento.css" rel="stylesheet">
   <ion-nav-buttons side="left" scroll="false" class="has-header">
     <a ui-sref="menuApprendimento" class="button icon-left ion-chevron-left button-clear button-white">&nbsp;Back</a>
     </ion-nav-buttons>
@@ -6,16 +7,41 @@
     <a ui-sref="side-menu21.menuUtente" class="button button-icon icon ion-android-close"></a>
   </ion-nav-buttons>
   <ion-content padding="true" scroll="false" class="has-header">
-    <h3 id="apprendimento-heading11" style="color:#FF1300;text-align:center;">{Nome Categoria}</h3>
-    <progress id="avanzamento" value="2" max="10">
-    </progress>
-    <ion-slides disable-side-menu-drag="" options="{'loop': true}" slider="slider1" delegate-handle="slider1" id="apprendimento-slider1" style="width:100%;height:200px;">
-      <ion-slide-page id="apprendimento-slide24" style="background:url(&quot;img/avfsZwJT9WGsBj982ul1_kitten1.jpg&quot;) no-repeat center;background-size:cover;"></ion-slide-page>
-      <ion-slide-page id="apprendimento-slide25" style="background:url(&quot;img/gHd5vedGQJu4s4qsPQvr_kitten2.jpg&quot;) no-repeat center;background-size:cover;"></ion-slide-page>
-      <ion-slide-page id="apprendimento-slide26" style="background:url(&quot;img/WE6rB9dZRTiIWQlP5qsA_kitten3.jpg&quot;) no-repeat center;background-size:cover;"></ion-slide-page>
-    </ion-slides>
-    <button id="apprendimento-button33" style="font-weight:500;font-size:20px;" class="button button-positive  button-block button-clear icon-left ion-android-volume-up">Riproduci suono</button>
-    <h4 id="apprendimento-heading5" style="color:#000000;">Decibel: {---}</h4>
-    <h4 id="apprendimento-heading6" style="color:#000000;">Frequenza: {---}</h4>
+    <div id="intestazione">
+        <div id="int_categoria">
+            <p>{{nomeCategoria}}</p>            
+        </div>
+        <div id="loading" ng-show="!mostra">
+            <img style="width:200px; height: 200px;" src ='./img/loading.gif'/>     
+        </div>
+        <div ng-show="mostra">
+            <div id="int_play">
+                <button id="play" class="item item-icon-left play_off" style="border:none; background-color: transparent;" ng-click="riproduci()">
+                    <i style="font-size: 33px;" class="icon ion-play"></i>
+                </button>
+            </div>
+            <div id="int_barra">
+                <div class="progressbar" style="width:{{progressA}}"></div>
+            </div>
+        </div>
+    </div>
+    <div ng-show="mostra">
+        <div id="nomeFoto"><p>{{nome}}</p></div>  
+        <div id="contenuto">        
+            <button id="sx" ng-hide="prev" class="item item-icon-left tasti" style="border:none; background-color: transparent;" ng-click="insertCoin('-')">
+                <i style="font-size: 34px;" class="icon ion-chevron-left"></i>
+            </button>
+            <img class="foto" ng-show="imgCarica" ng-src="{{immagine}}" style="width:250px; height:250px;" imageonload="ready()"/>
+            <img class="foto" ng-show="!imgCarica" style="width:250px; height: 250px;" src ='./img/loading.gif'/> 
+            <button id="dx" ng-hide="next" class="item item-icon-right tasti" style="border:none; background-color: transparent;" ng-click="insertCoin('+')">
+                <i style="font-size: 34px;" class="icon ion-chevron-right"></i>
+            </button>
+        </div>
+        <div id="dati">
+            <h4 style="color:#0F71DE;">Decibel: <span style="color:black;"> {{decibel}}</span></h4>
+            <h4 style="color:#0F71DE;">Frequenza: <span style="color:black;"> {{frequenza}}</span></h4>       
+        </div>
+    </div>
+    <audio id="suono" ng-src="{{jukebox}}" type="audio/mpeg" preload="auto" soundonended="stopRiproduzione()"> </audio>
   </ion-content>
 </ion-view>

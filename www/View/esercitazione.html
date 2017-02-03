@@ -17,7 +17,7 @@
                 <div class="textbar" style="width:{{progressA}}">{{progressB}}</div>
             </div>
         </div>
-        <div id="loading" ng-if="showLoading">
+        <div id="loading" ng-show="showLoading">
             <img style="width:200px; height: 200px;" src ='./img/loading.gif'/>     
         </div>
         <div id="contenitore_es" ng-show="showQuesito"> 
@@ -47,6 +47,6 @@
     </ion-list>
     <audio id="si" src ='./sounds/si.mp3' type="audio/mpeg" preload="auto"> </audio>
     <audio id="no" src ='./sounds/no.mp3' type="audio/mpeg" preload="auto"> </audio>
-    <audio id="suono" ng-src="{{giubox}}" type="audio/mpeg" preload="auto" soundonended="fineRiproduzione()"> </audio>          
+    <audio id="suono" ng-src="{{jukebox}}" type="audio/mpeg" preload="auto" soundonended="fineRiproduzione()"> </audio>          
   </ion-content>
 </ion-view>
