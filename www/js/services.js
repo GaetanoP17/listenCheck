@@ -6,6 +6,15 @@ angular.module('app.services', [])
         }
 })
 
+.service('apprendimento', function() { 
+        this.setCategoria = function(preferenza){
+            this.selezione = preferenza;
+        }
+        this.setSuoni = function(jukebox){ //jukebox = {id:, nome:, decibel:, frequenza:})
+            this.suoni = jukebox;
+        }        
+})
+
 .service("esercizio", function() {
     this.ascolti;
     this.reset = function(){
@@ -32,7 +41,7 @@ angular.module('app.services', [])
             this.elencoRis.push(risposta);
             this.addId(risposta.id);
     };
-    this.addId = function(id) { //risposta = {id:, nome:, ascolti:, esito:})
+    this.addId = function(id) { 
             this.idSounds.push(id);
     };
 })
