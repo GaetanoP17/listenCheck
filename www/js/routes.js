@@ -159,7 +159,17 @@ angular.module('app.routes', [])
     templateUrl: 'View/codiceVerifica.html',
     controller: 'codiceVerificaCtrl'
   })
-
+    .state('inserisciSuono', {
+    url: '/inserisciSuono',
+    templateUrl: 'View/inserisciSuono.html',
+    controller: 'inserisciSuonoCtrl'
+  })
+  
+   .state('visualizzaProgressiPaziente', {
+    url: '/visualizzaProgressiPaziente',
+    templateUrl: 'View/visualizzaProgressiPaziente.html',
+    controller: 'visualizzaProgressiPazienteCtrl'
+  })
 $urlRouterProvider.otherwise('/login');
 
   
