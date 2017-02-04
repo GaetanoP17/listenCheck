@@ -989,9 +989,66 @@ function (apprendimento, server, $scope, $stateParams, $http, $location, $ionicP
     }
 }])
    
-.controller('condividiSuonoCtrl', ['$scope', '$stateParams', 
-function ($scope, $stateParams) {
+.controller('condividiSuonoCtrl', ['server', '$scope', '$stateParams', '$cordovaCamera','$http', '$cordovaFile', '$cookies','$location',
+  function (server, $scope, $stateParams, $cordovaCamera, $http, $cordovaFile, $cookies, $location)
+  {	  
+	var path_audio,path_img;	
+    var ft = new FileTransfer();
+	var audio=true;
+	$scope.audioCapture=function(){
+	var options = {
+			limit: 1,
+			duration: 10
+	   };
+	   
+	   navigator.device.capture.captureAudio(onSuccess, onError, options);
+	   
+	   function onSuccess(mediaFiles) {
+		  var i, len;
+		  path_audio="";
+		  for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+			 path_audio=path_audio + mediaFiles[i].fullPath;       
+		  }
+	   }
 
+	   function onError(error) {
+		  navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
+	   }
+	
+}
+	$scope.imageCapture=function(){
+	     var options = {
+		  quality: 75,
+		  destinationType: Camera.DestinationType.FILE_URI,
+		  sourceType: Camera.PictureSourceType.CAMERA,
+		  allowEdit: false,
+		  targetWidth: 338,
+		  targetHeight: 338,
+		  encodingType: Camera.EncodingType.JPEG,
+		  mediaType:Camera.PICTURE,
+		  saveToPhotoAlbum: false
+		};
+
+		$cordovaCamera.getPicture(options).then(function(imageData) {
+			path_img=imageData;	
+		}, function(err) {
+		  // error
+		});
+	}
+	
+
+	$scope.invia=function(){
+	if(path_audio && path_img){
+		  $http.post(server('/insert_datimedia'), {luogoascolto: $scope.luogoascolto ,descrizione: $scope.descrizione , email : $cookies.getObject('account').email});
+		  ft.upload(path_audio, server('/upload_sound'), null, null);
+		  ft.upload(path_img, server('/upload_image'), null, null);
+		  alert("file inviati");
+		  path_img="";
+		  path_audio="";
+	}else{
+		  alert("seleziona un suono e associa un immagine");
+		}
+	};
 
 }])
    
@@ -1155,16 +1212,173 @@ function (server, $scope, $stateParams, $http, $ionicPopup, $location, $cookies,
 
 }])
    
-.controller('menuProgressiPazienteCtrl', ['$scope', '$stateParams', 
-function ($scope, $stateParams) {
-
-
+.controller('menuProgressiPazienteCtrl', ['server', '$scope', '$stateParams', '$cordovaCamera','$http', '$cordovaFile', '$cookies','$location',
+  function (server, $scope, $stateParams, $cordovaCamera, $http, $cordovaFile, $cookies, $location)
+  {
+	var selected=[];
+	var elenco =[];        
+	$http.post(server('/menupaziente'))
+      .success(function(data)
+      {
+		          $scope.myitemlist = [];
+		if(data.length==0){
+			ino="Non vi sono pazienti associati al tuo account";
+			$scope.info=ino;
+			selected=0;
+		}
+		 j=1;
+		 for(i=0;i<data.length;i++){
+		  var item = {};
+		  item.value = data[i].nome + " " + data[i].cognome;
+		  item.text = data[i].email;
+		  elenco[i*2]=data[i].nome + " " + data[i].cognome;
+		  elenco[j]=data[i].email;
+		  j=j+2;
+		  $scope.myitemlist.push(item);
+		}
+		
+	  });
+        
+	$scope.hasChanged = function() {		
+		  selected[0]= $scope.myselecteditem;
+		  for(i=0; i<= elenco.length;i++){
+			   if(elenco[i]==selected[0]){
+		   	  selected[1]=elenco[i+1];
+			  }
+		  }
+	}
+	
+	$scope.invia=function(){
+		if(selected==0){
+			alert("Non vi sono pazienti associati al tuo account");
+		}else{
+			$cookies.putObject('selected', selected);
+			$location.path('/progressiPaziente');
+		}
+	}
+	
 }])
    
-.controller('progressiPazienteCtrl', ['$scope', '$stateParams', 
-function ($scope, $stateParams) {
+.controller('progressiPazienteCtrl', ['server', '$scope', '$stateParams', '$cordovaCamera','$http', '$cordovaFile', '$cookies','$location',
+  function (server, $scope, $stateParams, $cordovaCamera, $http, $cordovaFile, $cookies, $location)
+  {
+	  var esercitazione= [];
+	  var decibel, frequenza;
+	var path_img;
+	var scelta = $cookies.getObject('selected');
+	$scope.item=scelta[0];
+	$http.post(server('/progressiPaziente'), {account: scelta[1], max: 5, min:5})
+      .success(function(ris)   
+	 {
+		 $scope.names=[];
+		 for (i=0; i<ris.length;i++){	
+		 var x = {};
+			x.data= ris[i].data.substring(0,10)+" ";
+			x.tipo=  ris[i].tipo+" ";
+			x.fascia=  ris[i].fascia+" ";
+			x.id= i;
+			esercitazione[i]=ris[i].quesiti;
+			$scope.names.push(x);
+			
+			}
+	  });
+	  $scope.visualizza=function(scelta){
+		  scelta=parseInt(scelta);
+		  $cookies.putObject('esercitazione', esercitazione[scelta]);
+		  $location.path('/visualizzaProgressiPaziente');
+		}
+	
+	
+}])
 
+.controller('visualizzaProgressiPazienteCtrl', ['server', '$scope', '$stateParams', '$cordovaCamera','$http', '$cordovaFile', '$cookies','$location',
+  function (server, $scope, $stateParams, $cordovaCamera, $http, $cordovaFile, $cookies, $location)
+  {
 
+		var scelta = $cookies.getObject('esercitazione');
+		$scope.names=[];
+		for (i=0; i<scelta.length;i++){	
+			var x = {};
+			x.nome= scelta[i].nome+" ";
+			x.ascolti=  scelta[i].ascolti+" ";
+			x.esito=  scelta[i].esito+" ";
+			$scope.names.push(x);	
+		}
+}])
+
+.controller('inserisciSuonoCtrl', ['server', '$scope', '$stateParams', '$cordovaCamera','$http', '$cordovaFile', '$cookies','$location', '$sce',
+  function (server, $scope, $stateParams, $cordovaCamera, $http, $cordovaFile, $cookies, $location, $scez)
+  {
+	  
+	var decibel, frequenza;
+	var path_audio,path_img;	
+    var ft = new FileTransfer();
+	
+	$scope.riproduci=function(){
+			var options = {
+			limit: 1,
+			duration: 10
+	   };
+	   
+	   navigator.device.capture.captureAudio(onSuccess, onError, options);
+	   
+	   function onSuccess(mediaFiles) {
+		  var i, len;
+		  path_audio="";
+		  for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+			 path_audio=path_audio + mediaFiles[i].fullPath;       
+		  }
+	   }
+
+	   function onError(error) {
+		  navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
+	   }
+	
+	}	
+	  
+	  $scope.imageCapture=function(){
+		  var options = {
+			  quality: 75,
+			  destinationType: Camera.DestinationType.FILE_URI,
+			  sourceType: Camera.PictureSourceType.CAMERA,
+			  allowEdit: false,
+			  targetWidth: 338,
+			  targetHeight: 338,
+			  encodingType: Camera.EncodingType.JPEG,
+			  mediaType:Camera.PICTURE,
+			  saveToPhotoAlbum: false,
+		   };
+
+		   $cordovaCamera.getPicture(options).then(function(imageData) {
+				$scope.imm_a =imageData;	
+				path_img=imageData;	
+			}, function(err) {
+				  // error
+			});
+		}
+		
+	  $scope.decibel=function(sel){
+				decibel=sel;
+		}
+		
+	  $scope.frequenza=function(sel){
+				frequenza=sel;
+		}
+		
+	  $scope.Approva=function(){
+		  if(path_audio && path_img && $scope.nome && frequenza && decibel && $scope.myselecteditem){
+				$http.post(server('/insert_suono'), {nomesuono: $scope.nome ,descrizione: $scope.myselecteditem, decibel: decibel, frequenza: frequenza, email : $cookies.getObject('account').email});
+				ft.upload(path_audio, server('/upload_sound'), null, null);
+				ft.upload(path_img, server('/upload_image'), null, null);
+				path_img="";
+				path_audio="";
+				alert("suono inserito");
+		  }else{
+			    alert("Compila tutti i campi e associa l'audio e l'immagine");
+		  }
+		}
+				
+		
 }])
    
 .controller('registrazioneUtenteCtrl', ['server', 'checkValue', 'capitalize', 'registrazione', '$scope', '$stateParams', '$http', '$ionicPopup','$location',
@@ -1436,16 +1650,134 @@ function (server, checkvalue, $scope, $stateParams, $http, $ionicPopup, $locatio
 
 }])
    
-.controller('menuGestioneCommunityCtrl', ['$scope', '$stateParams', 
-function ($scope, $stateParams) {
-
-
+.controller('menuGestioneCommunityCtrl', ['server', '$scope', '$stateParams', '$cordovaCamera','$http', '$cordovaFile', '$cookies','$location',
+  function (server, $scope, $stateParams, $cordovaCamera, $http, $cordovaFile, $cookies, $location)
+  {
+	var selected;    
+	$http.post(server('/menucommunity'))
+      .success(function(data)
+      {
+		$scope.myitemlist = [];
+		if(data.length==0){
+			ino="Non vi sono suoni da controllare";
+			$scope.info=ino;
+			selected=0;
+		}
+		 for(i=0;i<data.length;i++){
+		  var item = {};
+		  item.value = data[i].id;
+		  item.text = data[i].nome;
+		  $scope.myitemlist.push(item);
+		}
+		
+	  });
+        
+	$scope.hasChanged = function() {
+		selected=$scope.myselecteditem;
+	
+	}
+	$scope.invia=function(){
+		if(selected==0){
+			alert("Non vi sono suoni da controllare");
+		}else{
+			$cookies.putObject('selected', selected);
+			$location.path('/gestioneCommunity');
+		}
+	}
+	$scope.invia2=function(){
+		$location.path('/inserisciSuono');
+	}
 }])
-   
-.controller('gestioneCommunityCtrl', ['$scope', '$stateParams', 
-function ($scope, $stateParams) {
 
+.controller('gestioneCommunityCtrl', ['server', '$scope', '$stateParams', '$cordovaCamera','$http', '$cordovaFile', '$cookies','$location', '$sce',
+  function (server, $scope, $stateParams, $cordovaCamera, $http, $cordovaFile, $cookies, $location, $sce)
+  {
+	  		     
+	var decibel, frequenza;
+	var path_img;
+	var scelta = $cookies.getObject('selected');
+	var ft = new FileTransfer();	
+	
+	$http.post(server('/categorie'))
+      .success(function(data)
+      {
+		       $scope.names=[];
+		 for(i=0;i<data.length;i++){
+			   var x1 = {};
+		  x1.drname = data[i].nome;
+		  x1.text="";
+		  $scope.names.push(x1);
 
+		}
+		
+	  });
+	
+	$http.post(server('/menucommunity'))
+      .success(function(data)
+      {
+		 for(i=0;i<data.length;i++){
+			 if(scelta==data[i].id){
+				$scope.nome=data[i].nome;
+				var x1 = {};
+				x1.drname = data[i].categoria;
+				x1.text="Inserito dall'utente";
+				$scope.names.push(x1);
+				$scope.imm_a = $sce.trustAsResourceUrl(server('/images/'+scelta+'.png'));
+				$scope.imm_b = $sce.trustAsResourceUrl(server('/sounds/'+scelta+'.mp3'));
+				break;
+			 }
+		 }
+	  });
+	  
+	  $scope.riproduci=function(){
+		var x = document.getElementById("myAudio"); 
+		x.play();               
+	  }
+	  
+	  $scope.imageCapture=function(){
+		  var options = {
+			  quality: 75,
+			  destinationType: Camera.DestinationType.FILE_URI,
+			  sourceType: Camera.PictureSourceType.CAMERA,
+			  allowEdit: false,
+			  targetWidth: 338,
+			  targetHeight: 338,
+			  encodingType: Camera.EncodingType.JPEG,
+			  mediaType:Camera.PICTURE,
+			  saveToPhotoAlbum: false,
+		   };
+
+		   $cordovaCamera.getPicture(options).then(function(imageData) {
+				$scope.imm_a =imageData;	
+				path_img=imageData;	
+			}, function(err) {
+				  // error
+			});
+		}
+		
+	  $scope.decibel=function(sel){
+				decibel=sel;
+		}
+		
+	  $scope.frequenza=function(sel){
+				frequenza=sel;
+		}
+	  
+		$scope.hasChanged = function() {
+				selected=$scope.myselecteditem;
+		}
+		
+	  $scope.Approva=function(){
+				$http.post(server('/update_suono'), {nomesuono: $scope.nome ,descrizione: $scope.myselecteditem, decibel: decibel, frequenza: frequenza, scelta: scelta});
+				ft.upload(path_img, server('/upload_image'), null, null);
+				alert("suono inserito");
+		}
+				
+		$scope.Rifiuta=function(){
+					$http.post(server('/delete_all'), {id: scelta});
+					alert("suono eliminato");
+		}
+		
 }])
 
 .controller('codiceVerificaCtrl', ['server', 'registrazione', '$scope', '$stateParams', '$http', '$ionicPopup', '$location',

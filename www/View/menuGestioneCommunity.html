@@ -3,18 +3,24 @@
     <a ui-sref="side-menu21.menuAdmin" class="button button-icon icon ion-android-close"></a>
   </ion-nav-buttons>
   <ion-content padding="true" class="has-header">
-    <form id="menuGestioneCommunity-form13" class="list">
+    <form id="menuGestioneCommunity-form13" class="list" ng-controller="menuGestioneCommunityCtrl">
       <h3 id="menuGestioneCommunity-heading14" style="color:#FF1300;text-align:center;">Gestione Community</h3>
-      <label class="item item-input" id="menuGestioneCommunity-search4" name="cerca">
+      <h4 id="menuGestioneCommunity-heading14"  style="color:#0F71DE;text-align:center;">Cerca suono condiviso dalla community</h4>
+	  <label class="item item-input" id="menuGestioneCommunity-search4" name="cerca">
         <i class="icon ion-search placeholder-icon"></i>
-        <input type="search" placeholder="Cerca Suono ">
+        <input type="search" placeholder="Cerca Suono " list="myselecteditem" ng-change="hasChanged()"  ng-model="myselecteditem">
+		<datalist id="myselecteditem">
+  			 <option ng-repeat="item in myitemlist" value=" {{item.value}}" >{{item.text}}</option>
+		</datalist>
       </label>
       <div class="spacer" style="width: 300px; height: 15px;"></div>
-      <label class="item item-select" id="menuGestioneCommunity-select8" name="suoni">
-        <span class="input-label"></span>
-        <select></select>
-      </label>
-    </form>
-    <a ui-sref="gestioneCommunity" id="menuGestioneCommunity-button23" style="font-weight:500;font-size:20px;" class="button button-positive  button-block icon-left ion-android-settings">Esamina</a>
+      <h3 id="menuGestioneCommunity-heading14" style="color:#FF1300;text-align:center;" >{{info}}</h3>
+	  <a  id="menuGestioneCommunity-button23" style="font-weight:500;font-size:20px;" class="button button-positive  button-block icon-left ion-android-settings" ng-click="invia()">Esamina</a>
+	</form>
+	<h4 id="menuGestioneCommunity-heading14"  style="color:#0F71DE;text-align:center;">Inserisci suono</h4>
+	<div class="spacer" style="width: 300px; height: 15px;"></div>
+	<a  id="menuGestioneCommunity-button23" style="font-weight:500;font-size:20px;" class="button button-positive  button-block icon-left ion-music-note" ng-click="invia2()">Inserisci suono</a>
+
+
   </ion-content>
 </ion-view>

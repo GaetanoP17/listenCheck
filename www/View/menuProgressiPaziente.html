@@ -4,17 +4,17 @@
   </ion-nav-buttons>
   <ion-content padding="true" class="has-header">
     <h3 id="menuProgressiPaziente-heading12" style="color:#FF1300;text-align:center;">Progressi Pazienti</h3>
-    <form id="menuProgressiPaziente-form9" class="list">
+    <form id="menuProgressiPaziente-form9" class="list"  ng-controller="menuProgressiPazienteCtrl">
       <label class="item item-input" id="menuProgressiPaziente-search2" name="cerca">
         <i class="icon ion-search placeholder-icon"></i>
-        <input type="search" placeholder="Cerca Paziente">
-      </label>
+         <input type="search" placeholder="Cerca Paziente " list="myselecteditem" ng-change="hasChanged()"  ng-model="myselecteditem">
+		<datalist id="myselecteditem">
+  			 <option ng-repeat="item in myitemlist" value=" {{item.value}}" >{{item.text}}</option>
+		</datalist>
+      </label>	  
       <div class="spacer" style="width: 300px; height: 15px;"></div>
-      <label class="item item-select" id="menuProgressiPaziente-select6" name="pazienti">
-        <span class="input-label"></span>
-        <select></select>
-      </label>
-    </form>
-    <a ui-sref="progressiPaziente" id="menuProgressiPaziente-button20" style="font-weight:500;font-size:20px;" class="button button-positive  button-block">Visualizza</a>
+	  <h3 id="menuGestioneCommunity-heading14" style="color:#FF1300;text-align:center;" >{{info}}</h3>
+    <a ui-sref="progressiPaziente" id="menuProgressiPaziente-button20" style="font-weight:500;font-size:20px;" class="button button-positive  button-block" ng-click="invia()">Visualizza</a>
+	</form>
   </ion-content>
 </ion-view>

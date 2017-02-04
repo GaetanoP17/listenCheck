@@ -3,21 +3,23 @@
      <a ui-sref="side-menu21.menuUtente" class="button icon-left ion-chevron-left button-clear button-white">&nbsp;Back</a>
    </ion-nav-buttons>
   <ion-content padding="true" scroll="false" class="has-header">
-    <form id="condividiSuono-form7" class="list">
+    <form id="condividiSuono-form7" class="list" ng-controller="condividiSuonoCtrl">
       <h3 id="condividiSuono-heading8" style="color:#FF1300;text-align:center;">Condividi in Community</h3>
       <label class="item item-input" id="condividiSuono-input11" name="nome ">
-        <input type="text" placeholder=" Nome Suono">
+        <input type="text" placeholder=" Luogo di ascolto" ng-model="luogoascolto"  >
       </label>
       <div class="spacer" style="width: 300px; height: 21px;"></div>
       <label class="item item-input" id="condividiSuono-input12" name="descrizione">
-        <input type="text" placeholder="Descrizione">
+              <textarea rows="4" cols="50" placeholder="Descrizione" ng-model="descrizione"  >
+			  </textarea>
       </label>
-    </form>
     <div id="condividiSuono-button-bar1" class="button-bar">
-      <button id="condividiSuono-button16" class="button button-royal button-large button-block button-clear icon ion-android-microphone"></button>
-      <button id="condividiSuono-button17" class="button button-royal button-large button-block button-clear icon ion-ios-play"></button>
-      <button id="condividiSuono-button18" class="button button-royal button-large button-block button-clear icon ion-images"></button>
+      <button id="condividiSuono-button16" class="button button-royal button-large button-block button-clear icon ion-android-microphone" ng-click="audioCapture()"></button>
+      <button id="condividiSuono-button18" class="button button-royal button-large button-block button-clear icon ion-images" ng-click="imageCapture()"></button>
     </div>
-    <button id="condividiSuono-button12" style="font-weight:500;font-size:22px;" class="button button-positive  button-block">Invia</button>
+	<p id="img"></p>
+    <button id="condividiSuono-button12" style="font-weight:500;font-size:22px;" class="button button-positive  button-block" ng-click="invia()">Invia</button>
+	    </form>
+
   </ion-content>
 </ion-view>

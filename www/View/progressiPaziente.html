@@ -1,4 +1,4 @@
-<ion-view title="" hide-back-button="true" id="ProgressiPaziente" cache-view="false" ng-controller="progressiPazienteCtrl" ng-init="prova()">
+<ion-view title="" hide-back-button="true" id="ProgressiPaziente">
   <ion-nav-buttons side="left" class="has-header">
     <a ui-sref="menuProgressiPaziente" class="button icon-left ion-chevron-left button-clear button-white">&nbsp;Back</a>
   </ion-nav-buttons>
@@ -6,11 +6,27 @@
     <a ui-sref="side-menu21.menuLogopedista" class="button button-icon icon ion-android-close"></a>
   </ion-nav-buttons>
   <ion-content padding="true" class="has-header">
+    <form id="menuGestioneCommunity-form13" class="list" ng-controller="progressiPazienteCtrl">
     <h3 id="ProgressiPaziente-heading26" style="color:#FF1300;text-align:center;">Progressi Paziente</h3>
-    <h4 id="ProgressiPaziente-heading13" style="color:#0F71DE;">{Nome Paziente}</h4>
+	<div class="spacer" style="width: 300px; height: 13px;"></div>
+    <h4 id="ProgressiPaziente-heading13" style="color:#0F71DE; text-align:center;" >{{item}}</h4>
     <div class="spacer" style="width: 300px; height: 13px;"></div>
+	<table style = "width: 100%; " id="tabella" >
+	<tr style = "background-color: #0F71DE; color: white;">
+	<td><h5 style="color:white; text-align:center;">&nbsp; Data &nbsp;</h5> </td>
+		<td><h5 style="color:white; text-align:center;" >&nbsp; Tipo &nbsp;</h5> </td>
+		<td><h5 style="color:white; text-align:center;">&nbsp; Fascia &nbsp;</h5> </td>
+		<td><h5 style="color:white; text-align:center;">&nbsp; Visualizza risultati &nbsp;</h5> </td>
+	</tr>
+	<tr ng-repeat="x in names">
+		<td><h5 style="color:#000000; text-align:center;" >&nbsp; {{ x.data }} &nbsp;</h5></td>
+		<td><h5 style="color:#000000; text-align:center;" >&nbsp; {{ x.tipo }} &nbsp;</h5></td>
+		<td><h5 style="color:#000000; text-align:center;" >&nbsp; {{ x.fascia }} &nbsp;</h5></td>
+		<td><p style="color:#FF1300; text-align:center;" ><em>&nbsp; <i ng-click="visualizza(&#34;{{ x.id }} &#34;)" style ="font-size:26px; color:#000000;" class="icon ion-clipboard placeholder-icon "></i>  &nbsp;</em></p></td>
+    </tr>
+	</table>
     <div style="margin: 0px; line-height: 250px; background-color: rgb(232, 235, 239); text-align: center;">
-      <i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>
     </div>
+	</form>
   </ion-content>
 </ion-view>
