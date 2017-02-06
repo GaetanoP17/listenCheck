@@ -25,9 +25,9 @@
       <div class="item item-body" id="gestioneCollaborazioni-list-item-container3">
         <ion-list id="gestioneCollaborazioni-list20">
           <ion-list id="gestioneCollaborazioni-list19">
-            <ion-item class="item-icon-right positive" id="gestioneCollaborazioni-list-item16" ng-repeat="accettato in accettati | orderBy:'nome' | filter: nome">{{accettato.nome}} {{accettato.cognome}}
+            <ion-item class="item-icon-right positive" id="gestioneCollaborazioni-list-item16" ng-repeat="accettato in accettati | filter: nome">{{accettato.nome}} {{accettato.cognome}}
             <i class="icon ion-android-arrow-dropleft"></i>
-              <ion-option-button class="button-assertive">Elimina</ion-option-button>
+              <ion-option-button class="button-assertive" ng-click="elimina(accettato.paziente, $index)" ng-model="accettato.paziente">Elimina</ion-option-button>
             </ion-item>
            </ion-list>
         </ion-list>

@@ -176,6 +176,14 @@ function (server, $scope, $stateParams, $http, $cookies, $ionicPopup)
         $http.post(server('/gestioneCollaborazioni/accetta'), {paziente: paziente, terapista: terapista, nome: nome, cognome: cognome})
             .success(function(data)
             {
+                if( data === "Already")
+                {
+                    $scope.sospesi.splice(indice,1);
+                    $ionicPopup.alert({
+                    title: 'ListenCheck',
+                    template: "Ci dispiace, l'utente ha stretto collaborazione con un altro terapista"
+                    });
+                }
                 if( data === "Done")
                 {
                   
@@ -217,6 +225,28 @@ function (server, $scope, $stateParams, $http, $cookies, $ionicPopup)
                 });
             });
     }
+    $scope.elimina=function(paziente,indice)
+    {
+        $http.post(server('/gestioneCollaborazioni/elimina'), {paziente: paziente, terapista: terapista})
+            .success(function(data)
+            {
+                if( data === "Done")
+                {
+                    $scope.accettati.splice(indice,1);
+                    $ionicPopup.alert({
+                    title: 'ListenCheck',
+                    template: "Richiesta di collaborazione eliminata"
+                });
+            }   
+            })
+            .error(function()
+            {
+                $ionicPopup.alert({
+                title: 'ListenCheck',
+                template: "Problemi con il server...Riprovare più tardi"
+                });
+            });
+    }
 
 }])
    
@@ -227,7 +257,7 @@ function ($scope, $stateParams, $cookies)
     var tipo= $cookies.getObject('account').type;
     $scope.flag=true;
     
-    if(tipo === "L")
+    if(tipo === "L" || tipo === "A")
         $scope.flag=false;
     
      $scope.mostraNome=function()
@@ -1069,7 +1099,6 @@ function (server, $scope, $stateParams, $http, $ionicPopup, $location, $cookies,
     $http.post(server('/cercaLogopedista/check'), {email: paziente})
         .success(function(data)
         {
-            alert(data);
             stato=parseInt(data);
             var values={
                         "email": paziente,
@@ -1123,6 +1152,13 @@ function (server, $scope, $stateParams, $http, $ionicPopup, $location, $cookies,
         $http.post(server('/cercaLogopedista/invia'), {email: email, nome: nome, cognome: cognome, paziente: paziente})
             .success(function(data)
             {
+                if( data === "Already")
+                {
+                    $ionicPopup.alert({
+                    title: 'ListenCheck',
+                    template: "Richiesta di collaborazione già inviata"
+                    });
+                }
                 if(data === "Inviata")
                 {
                     $ionicPopup.alert({
@@ -1217,11 +1253,11 @@ function (server, $scope, $stateParams, $http, $ionicPopup, $location, $cookies,
   {
 	var selected=[];
 	var elenco =[];        
-	$http.post(server('/menupaziente'))
+	$http.post(server('/menupaziente'),{email:$cookies.getObject('account').email})
       .success(function(data)
       {
 		          $scope.myitemlist = [];
-		if(data.length==0){
+		if(data.length===0){
 			ino="Non vi sono pazienti associati al tuo account";
 			$scope.info=ino;
 			selected=0;
