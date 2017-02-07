@@ -391,8 +391,8 @@ function (esercizio, server, $scope, $http, $stateParams, $location, $cookies, $
     $scope.anomalia = 0;
     $scope.maxQuestions = 5;            
     $('#suono').prop("volume", 1.0);   
-    $('#si').prop("volume", 1.0);
-    $('#no').prop("volume", 1.0);
+    $('#si').prop("volume", 0.2);
+    $('#no').prop("volume", 0.2);
         
     $scope.fine = 1; 
     $scope.play_Feedback = 'ion-play';
@@ -438,8 +438,10 @@ function (esercizio, server, $scope, $http, $stateParams, $location, $cookies, $
                 }
             }               
             var parameter;
+            var flag = 0;
             if(esercizio.exe.decibel != null){
                 parameter=JSON.stringify({tipo: "decibel", fascia: esercizio.exe.decibel, idSounds: esercizio.idSounds});
+                flag = 1;
             }else {
                 parameter=JSON.stringify({tipo: "frequenza", fascia: esercizio.exe.frequenza, idSounds: esercizio.idSounds});          
             }
@@ -458,7 +460,14 @@ function (esercizio, server, $scope, $http, $stateParams, $location, $cookies, $
                 {
                     $scope.id = data[0].id;
                     $scope.nome = data[0].nome;
-                    $scope.jukebox = $sce.trustAsResourceUrl(server('/sounds/'+$scope.id+'.mp3'));
+                    if(flag)
+                    {
+                        $scope.jukebox = $sce.trustAsResourceUrl(server('/soundsDecibel/'+$scope.id+'.mp3'));
+                    }
+                    else
+                    {
+                        $scope.jukebox = $sce.trustAsResourceUrl(server('/sounds/'+$scope.id+'.mp3'));
+                    }
                     var x = Math.floor((Math.random() * 4));
                     var n = 0;
                     while(true){                
@@ -930,6 +939,7 @@ function (apprendimento, server, $scope, $stateParams, $http, $location, $ionicP
     $(".foto").css("left", med-124+"px");
     $("#sx").css("left", med-169+"px");
     $("#dx").css("right", med-169+"px");
+    $scope.viewDecibel = 0;
     $scope.index = 0;
     $scope.mostra = 0;
     $scope.imgCarica = 0;
