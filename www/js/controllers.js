@@ -29,7 +29,6 @@ function (server, checkvalue, capitalize, $scope, $stateParams, $http, $cookies,
     $scope.email= oggettoAccount.email;
     $scope.password="";
     $scope.passwordconferma="";
-    //alert($scope.email);
     
     $http.post(server('/profiloUtente'), {email: $scope.email})
             .success(function(data)
@@ -1579,6 +1578,7 @@ function (server, checkvalue, $scope, $stateParams, $http, $ionicPopup, $locatio
 {
     //variabile per abilitare/disabilitare il tasto registrati in base al valore dell'email
     $scope.button=true;
+    $scope.sesso="m";
     
     $scope.checkemail= function()
     {
