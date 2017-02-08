@@ -37,10 +37,10 @@
           <label class="checkbox-balanced" id="registrazioneUtente-input22" name="minorenne">
             <ion-checkbox positive ng-model="minorenne" ng-required="false">Il Paziente è minorenne?</ion-checkbox>  
           </label>
-          <label class="item item-input" id="registrazioneUtente-input23" name="nomeG">
+          <label class="item item-input" id="registrazioneUtente-input23" name="nomeG" ng-show="minorenne">
           <input style="text-transform: capitalize" type="text" placeholder="Nome del genitore" ng-required="minorenne" ng-show="minorenne" ng-model="nomeGenitore">
         </label>
-          <label class="item item-input" id="registrazioneUtente-input24" name="cognomeG">
+          <label class="item item-input" id="registrazioneUtente-input24" name="cognomeG" ng-show="minorenne">
           <input style="text-transform: capitalize" type="text" placeholder="Cognome del genitore" ng-model="cognomeGenitore" ng-required="minorenne" ng-show="minorenne">
         </label>
           

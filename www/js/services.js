@@ -2,7 +2,7 @@ angular.module('app.services', [])
 
 .factory('server', function() { 
         return function(indirizzo) { 
-            return ('http://172.19.43.7:3000' + indirizzo);
+            return ('http://172.19.57.102:3000' + indirizzo);
         }
 })
 .factory('capitalize', function()

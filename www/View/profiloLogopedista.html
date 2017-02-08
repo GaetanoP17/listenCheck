@@ -1,19 +1,19 @@
 <ion-view title="" hide-back-button="true" id="profiloUtente" cache-view="false">
   <ion-nav-buttons side="left" class="has-header">
     <!-- modificare ui-sref in base al tipo di utente-->
-    <a ui-sref="side-menu21.menuUtente" class="button icon-left ion-chevron-left button-clear button-white">&nbsp;Back</a>
+    <a ui-sref="side-menu21.menuLogopedista" class="button icon-left ion-chevron-left button-clear button-white">&nbsp;Back</a>
   </ion-nav-buttons>
   <ion-content padding="true" class="has-header">
-    <h3 id="profiloUtente-heading24" style="color:#FF1300;text-align:center;">Profilo</h3>
+    <h3 id="profiloLogopedista-heading24" style="color:#FF1300;text-align:center;">Profilo</h3>
     
-    <form id="profiloUtente-form6" class="list" name="profilo" ng-model="profilo" ng-controller="profiloUtenteCtrl" novalidate>
-        <label class="item item-input" id="profiloUtente-input6" name="nome">
+    <form id="profiloLogopedista-form6" class="list" name="profilo" ng-model="profilo" ng-controller="profiloLogopedistaCtrl" novalidate>
+        <label class="item item-input" id="profiloLogopedista-input6" name="nome">
         <input style="text-transform: capitalize" type="text" placeholder="Nome" ng-model="nome" required>                        
       </label>
-      <label class="item item-input" id="profiloUtente-input8" name="cognome">
+      <label class="item item-input" id="profiloLogopedista-input8" name="cognome">
         <input style="text-transform: capitalize" type="text" placeholder="Cognome" ng-model="cognome" required>
       </label>
-      <label class="item item-input" id="profiloUtente-input9" name="data" >
+      <label class="item item-input" id="profiloLogopedista-input9" name="data" >
               <i class="icon ion-android-calendar"></i><span class="input-label">&nbsp;Data di Nascita&nbsp;&nbsp;</span>
               <input type="date" placeholder="Data di nascita" ng-model="dataN" required>
       </label>
@@ -24,23 +24,23 @@
           <option value="m"> Maschio </option>
           </select>
       </label>    
-      <label class="item item-input" id="registrazioneUtente-input21" name="cf" >
-              <input style="text-transform: uppercase" type="text" placeholder="Codice Fiscale" id="cf" name="cf" ng-model="cf" ng-pattern="reCF" required >
+      <label class="item item-input" id="profiloLogopedista-input31" name="piva" ng-show="noPiva">
+              <input type="tel" placeholder="P.IVA" name="piva" ng-model="piva" ng-minlength="11" ng-maxlength="11" ng-show="noPiva">
       </label>
-          <label class="item item-input" id="registrazioneUtente-input19" name="citta">
+          <label class="item item-input" id="profiloLogopedista-input19" name="citta">
           <input style="text-transform: capitalize" type="text" placeholder="Città" ng-model="citta" required>
           </label>
-          <label class="item item-input" id="registrazioneUtente-input20" name="telefono">
+          <label class="item item-input" id="profiloLogopedista-input20" name="telefono">
           <input type="tel" placeholder="Telefono" ng-model="telefono" name="tel" id="tel" ng-minlength="9" ng-maxlength="11" required>
           </label>
       <div class="spacer" style="width: 300px; height: 16px;"></div>
-      <label class="item item-input" id="profiloUtente-input4" name="email">
+      <label class="item item-input" id="profiloLogopedista-input4" name="email">
         <input type="text" placeholder="Email" ng-model="email" disabled>
       </label>
-      <label class="item item-input" id="profiloUtente-input10" name="pw">
+      <label class="item item-input" id="profiloLogopedista-input10" name="pw">
         <input type="password" placeholder="Inserisci nuova password" id="password" name="password" ng-model="password" ng-pattern="rePass">
       </label>
-      <label class="item item-input" id="profiloUtente-input5" name="pwr">
+      <label class="item item-input" id="profiloLogopedista-input5" name="pwr">
         <input type="password" placeholder="Reinserisci password" id="passwordconferma" name="passwordconferma" ng-model="passwordconferma">
       </label>
       <button id="profiloUtente-button10" style="font-weight:500;font-size:20px;" class="button button-positive  button-block" ng-click="salva()">Salva modifiche</button>

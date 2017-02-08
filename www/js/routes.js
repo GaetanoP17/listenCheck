@@ -46,12 +46,6 @@ angular.module('app.routes', [])
     controller: 'profiloUtenteCtrl'
   })
 
-  .state('disassociaLogo', {
-    url: '/disassociaLogo',
-    templateUrl: 'View/disassociaLogo.html',
-    controller: 'disassociaLogoCtrl'
-  })
-
   .state('gestioneCollaborazioni', {
     url: '/gestioneCollaborazioni',
     templateUrl: 'View/gestioneCollaborazioni.html',
@@ -154,6 +148,12 @@ angular.module('app.routes', [])
     controller: 'gestioneCommunityCtrl'
   })
   
+   .state('profiloLogopedista', {
+    url: '/profiloLogopedista',
+    templateUrl: 'View/profiloLogopedista.html',
+    controller: 'profiloLogopedistaCtrl'
+  })
+  
   .state('codiceVerifica', {
     url: '/codiceVerifica',
     templateUrl: 'View/codiceVerifica.html',
@@ -170,6 +170,7 @@ angular.module('app.routes', [])
     templateUrl: 'View/visualizzaProgressiPaziente.html',
     controller: 'visualizzaProgressiPazienteCtrl'
   })
+  
 $urlRouterProvider.otherwise('/login');
 
   

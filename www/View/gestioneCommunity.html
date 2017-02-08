@@ -1,4 +1,4 @@
-<ion-view title="" hide-back-button="true" id="gestioneCommunity" cache-view='false'>
+<ion-view title="" hide-back-button="true" id="gestioneCommunity" cache-view='false' ng-init="esamina()">
   <ion-nav-buttons side="left" class="has-header">
     <a ui-sref="menuGestioneCommunity" class="button icon-left ion-chevron-left button-clear button-white">&nbsp;Back</a>
   </ion-nav-buttons>
@@ -21,7 +21,7 @@
       <div class="spacer" style="width: 280px; height: 17px;"></div>
       <button id="gestioneCommunity-button27" style="font-weight:500;font-size:20px;" class="button button-positive  button-block icon-left ion-ios-play" ng-click="riproduci()">Riproduci</button>
      <div style="margin: 0px; line-height: 10px; background-color: rgb(232, 235, 239); text-align: center;">
-      <img id="imm_a" ng-src="{{imm_a}}" ng-click="imageCapture()"  />
+      <img id="imm_a" ng-src="{{imm_a}}" ng-click="imageCapture()" ng-model="image" />
      </div>
      <h4 id="gestioneCommunity-heading19" style="color:#0F71DE;">Cataloga in: </h4>
       <label class="item item-select" id="gestioneCommunity-select10" name="decibel">

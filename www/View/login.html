@@ -1,6 +1,9 @@
 <ion-view title="ListenCheck" hide-back-button="true" id="login">
   <ion-content padding="true" scroll="false" class="has-header">
-    <form id="login-form1" class="list" ng-controller="loginCtrl">
+      <div>
+        <img src="img/Logo.png" style="display: block; width: 60%; height: auto; margin-left: auto; margin-right: auto;">
+      </div>
+      <form id="login-form1" class="list" ng-controller="loginCtrl">
       <label class="item item-input" id="login-input1" name="email">
         <input type="email" placeholder="Email"ng-model="email">
       </label>
@@ -12,9 +15,6 @@
       <input style="font-weight:500;color:#FFFFFF;font-size:20px;" class="button button-balanced  button-block" type="submit" id="submit" value="Accedi" ng-click="invia()">
       <a ui-sref="registrazioneUtente" id="login-button4" style="font-weight:500;color:#FFFFFF;font-size:20px;" class="button button-positive  button-block">Registrati</a>
       <a ui-sref="recuperaPassword" id="login-button2" style="font-size:16px;" class="button button-positive  button-block button-clear">Password Dimenticata</a>
-      <div>
-        <img src="img/Logo.png" style="display: block; width: 30%; height: auto; margin-left: auto; margin-right: auto;">
-      </div>
     </form>
   </ion-content>
 </ion-view>
