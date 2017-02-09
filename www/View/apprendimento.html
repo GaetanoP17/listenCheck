@@ -12,7 +12,7 @@
             <p>{{nomeCategoria}}</p>            
         </div>
         <div id="loading" ng-show="!mostra">
-            <img style="width:200px; height: 200px;" src ='./img/loading.gif'/>     
+            <img style="width:150px; height: 150px; margin-left: auto; margin-right: auto;" src ='./img/loading.gif'/>     
         </div>
         <div ng-show="mostra">
             <div id="int_play">
@@ -32,13 +32,14 @@
                 <i style="font-size: 34px;" class="icon ion-chevron-left"></i>
             </button>
             <img class="foto" ng-show="imgCarica" ng-src="{{immagine}}" style="width:250px; height:250px;" imageonload="ready()"/>
-            <img class="foto" ng-show="!imgCarica" style="width:250px; height: 250px;" src ='./img/loading.gif'/> 
+            <img class="foto" ng-show="!imgCarica" style="width:150px; height: 150px; margin-top: 50px; margin-left: 50px; border: none;" src ='./img/loading.gif'/> 
             <button id="dx" ng-hide="next" class="item item-icon-right tasti" style="border:none; background-color: transparent;" ng-click="insertCoin('+')">
                 <i style="font-size: 34px;" class="icon ion-chevron-right"></i>
             </button>
         </div>
         <div id="dati">
             <h4 style="color:#0F71DE;" ng-if="viewDecibel">Decibel: <span style="color:black;"> {{decibel}}</span></h4>
+            <br>
             <h4 style="color:#0F71DE;">Frequenza: <span style="color:black;"> {{frequenza}}</span></h4>       
         </div>
     </div>
