@@ -5,10 +5,10 @@
     </ion-nav-buttons>
     <ion-content padding="true" class="has-header sfondoBase">
         <div ng-if="!visualizza" id="loading">
-                <img style="width:200px; height: 200px;" src ='./img/loading.gif'/>     
+                <img style="width:150px; height: 150px;" src ='./img/loading.gif'/>     
         </div>
         <div ng-show="visualizza" id="riepilogo" class="list">
-            <div id="aa" class="bar bar-header bar-light">
+            <div class="bar bar-header bar-light" style="border: none; background-color: transparent;">
                 <h1 id="tipologia">{{tipologia}}</h1>
             </div><br><br><br>
             <a class="item item-thumbnail-left item-icon-right" ng-click="play('1')">

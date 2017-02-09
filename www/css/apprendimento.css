@@ -12,8 +12,9 @@
 }
 #int_categoria p{
     font-weight: bold;
-    font-size: 26px;
-    color: red;
+    font-size: 21px;
+    font-family: cursive; 
+    color: #0F71DE; 
 }
 #int_play{
     position: absolute;
@@ -29,7 +30,7 @@
     left: 56px;
     right: 3%; 
     height: 30px;
-    background-color:#EEEEEE; 
+    background-color: #BABABA;
     top: 36px;
     z-index: 2;
 }
@@ -46,10 +47,10 @@
     left: 0px;
     right: 0px; 
     top: 83px;
-    font-size: 21px;
+    font-size: 20px;
     color: #0F71DE;
     text-align: center; 
-    font-weight: bold;
+    font-weight: bold; 
 }
 #contenuto{
     position: absolute;
@@ -86,7 +87,7 @@
 .progressbar{
     position:absolute;
     height:100%;
-    background-color:#0F71DE;
+    background-color: #4D95DC;
     top:0px;
 }
 .textbar{ 

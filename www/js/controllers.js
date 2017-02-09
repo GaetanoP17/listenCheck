@@ -566,9 +566,9 @@ function (esercizio, server, $scope, $http, $stateParams, $location, $cookies, $
             foto.eq(i).css({ width: max+"px", height: max+"px"});
             radio.eq(i).css("width", max-5+"px");        
         }
-        $("#esercitazione-controlla").css("top", max*2+106+"px");
-        $("#esercitazione-continua").css("top", max*2+106+"px");
-        $("#esercitazione-riepilogo").css("top", max*2+106+"px");
+        $("#esercitazione-controlla").css("top", max*2+110+"px");
+        $("#esercitazione-continua").css("top", max*2+110+"px");
+        $("#esercitazione-riepilogo").css("top", max*2+110+"px");
         mostra(1);
         $("#suono").get(0).play(); 
     }
