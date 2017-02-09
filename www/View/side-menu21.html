@@ -12,15 +12,18 @@
     <ion-header-bar class="bar-stable">
       <div class="title"></div>
     </ion-header-bar>
-    <ion-content padding="true" class="side-menu-right has-header " scroll="false">
+    <ion-content padding="true" class="side-menu-right has-header sfondoMenuLaterale" scroll="false">
+      <div>
+        <img src="img/logoMenu.png" style="margin-bottom: 7%; margin-top: 7%; display: block; width: 40%; height: auto; margin-left: auto; margin-right: auto;">
+      </div>
       <ion-list id="side-menu21-list1">
-        <ion-item class="item-icon-left positive" id="side-menu21-list-item18"  ui-sref="profiloLogopedista" menu-close="" ng-if="flag1" ng-model="flag1">
+        <ion-item class="item-icon-left black" id="side-menu21-list-item18"  ui-sref="profiloLogopedista" menu-close="" ng-if="flag1" ng-model="flag1">
           <i class="icon ion-android-person"></i>{{nome}}
         </ion-item>
-        <ion-item class="item-icon-left positive" id="side-menu21-list-item4"  ui-sref="profiloUtente" menu-close="" ng-if="flag" ng-model="flag">
+        <ion-item class="item-icon-left black" id="side-menu21-list-item4"  ui-sref="profiloUtente" menu-close="" ng-if="flag" ng-model="flag">
           <i class="icon ion-android-person"></i>{{nome}}
         </ion-item>
-          <ion-item class="item-icon-left balanced" id="side-menu21-list-item24" ui-sref="cercaLogopedista" menu-close="" ng-if="flag" ng-model="flag">
+          <ion-item class="item-icon-left positive" id="side-menu21-list-item24" ui-sref="cercaLogopedista" menu-close="" ng-if="flag" ng-model="flag">
           <i class="icon ion-medkit"></i>Terapista
           </ion-item>
           <ion-item class="item-icon-left assertive" id="side-menu21-list-item9" ui-sref="login" menu-close="" ng-click="logout()">
@@ -35,9 +38,6 @@
         <ion-item class="item-icon-left" id="side-menu21-list-item8" ui-sref="side-menu21.menuUtente" menu-close="" style="display:none;">
           <i class="icon ion-home"></i>Home Utente
         </ion-item>
-          <ion-item>
-              <img src="img/Logo.png" style="display: block; width: 30%; height: auto; margin-left: auto; margin-right: auto;">
-          </ion-item>
       </ion-list>
     </ion-content>
   </ion-side-menu>
