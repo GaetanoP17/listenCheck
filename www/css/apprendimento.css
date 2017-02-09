@@ -2,7 +2,7 @@
     position: fixed;
     left: 0px;
     right: 0px; 
-    top: 46px;
+    top: 48px;
 }
 #int_categoria{
     position: absolute;
@@ -12,8 +12,7 @@
 }
 #int_categoria p{
     font-weight: bold;
-    font-size: 21px;
-    font-family: cursive; 
+    font-size: 24px;
     color: #0F71DE; 
 }
 #int_play{
