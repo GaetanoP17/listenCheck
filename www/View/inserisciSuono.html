@@ -17,8 +17,10 @@
 	  </textarea>
       </label>
       <div class="spacer" style="width: 280px; height: 17px;"></div>
-      <button id="inserisciSuono-button27" style="font-weight:500;font-size:20px;" class="button button-positive  button-block icon-left ion-mic-a" ng-click="riproduci()">Registra l'audio</button>
-      <button id="inserisciSuono-button27" style="font-weight:500;font-size:20px;" class="button button-positive  button-block icon-left ion-camera" ng-click="imageCapture()">Scatta la foto</button>
+      <div style="text-align:center">
+      <button id="inserisciSuono-button27" style="width:43%; margin-left:5%; font-weight:500;color:#FFFFFF;font-size:15px;border-radius:50px 50px 50px 50px;" class="button button-balanced  icon-left ion-mic-a" ng-click="riproduci()">Registra l'audio</button>&nbsp
+      <button id="inserisciSuono-button27" style="width:43%; margin-right:5%;font-weight:500;color:#FFFFFF;font-size:15px;border-radius:50px 50px 50px 50px;" class="button button-energized  icon-left ion-camera" ng-click="imageCapture()">Scatta la foto</button>
+      </div>
       <div class="spacer" style="width: 280px; height: 17px;"></div>
 	 <h4 id="inserisciSuono-heading19" style="color:#0F71DE;">Cataloga in: </h4>
       <label class="item item-select" id="inserisciSuono-select10" name="decibel">
@@ -40,7 +42,7 @@
               <option value="32001_48000">32001 - 48000</option>
 		</select>
       </label>
-     <button id="inserisciSuono-button25" style="font-weight:500;font-size:20px;border-radius:0px 0px 0px 0px;" class="button button-balanced  button-block icon-left ion-checkmark" ng-click="Approva()">Approva</button>
+     <button id="inserisciSuono-button25" style="width:70%; margin-left:15%; margin-right:15%; font-weight:500;color:#FFFFFF;font-size:20px;border-radius:50px 50px 50px 50px;" class="button button-positive  button-block icon-left ion-checkmark" ng-click="Approva()">Approva</button>
 	</form>
   </ion-content>
 </ion-view>

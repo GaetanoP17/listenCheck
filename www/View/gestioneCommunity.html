@@ -19,7 +19,7 @@
     </datalist>
       </label>
       <div class="spacer" style="width: 280px; height: 17px;"></div>
-      <button id="gestioneCommunity-button27" style="font-weight:500;font-size:20px;" class="button button-positive  button-block icon-left ion-ios-play" ng-click="riproduci()">Riproduci</button>
+      <button id="gestioneCommunity-button27" style="width:70%; margin-left:15%; margin-right:15%; font-weight:500;color:#FFFFFF;font-size:20px;border-radius:50px 50px 50px 50px;" class="button button-positive  button-block icon-left ion-ios-play" ng-click="riproduci()">Riproduci</button>
      <div style="margin: 0px; line-height: 10px; background-color: rgb(232, 235, 239); text-align: center;">
       <img id="imm_a" ng-src="{{imm_a}}" ng-click="imageCapture()" ng-model="image" />
      </div>
@@ -43,8 +43,11 @@
               <option value="32001_48000">32001 - 48000</option>
 		</select>
       </label>
-     <button id="gestioneCommunity-button25" style="font-weight:500;font-size:20px;border-radius:0px 0px 0px 0px;" class="button button-balanced  button-block icon-left ion-checkmark" ng-click="Approva()">Approva</button>
-     <button id="gestioneCommunity-button26" style="font-weight:500;font-size:20px;" class="button button-assertive  button-block icon-left ion-close" ng-click="Rifiuta()">Rifiuta</button>
-	</form>
+     <div class="spacer" style="width: 300px; height: 15px;"></div>
+     <div style="text-align:center">
+     <button id="gestioneCommunity-button25" style="width:40%; margin-left:5%; font-weight:500;color:#FFFFFF;font-size:20px;border-radius:50px 50px 50px 50px;" class="button button-balanced icon-left ion-checkmark" ng-click="Approva()">Approva</button>
+     <button id="gestioneCommunity-button26" style="width:40%; margin-right:5%; font-weight:500;color:#FFFFFF;font-size:20px;border-radius:50px 50px 50px 50px;" class="button button-assertive icon-left ion-close" ng-click="Rifiuta()">Rifiuta</button>
+     </div>
+    </form>
   </ion-content>
 </ion-view>
