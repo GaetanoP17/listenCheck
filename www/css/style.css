@@ -1,1 +1,22 @@
-/* Empty. Add your own CSS if you like */
+.sfondoMenuLaterale{
+    background: url('../img/sideMenu.png') no-repeat right fixed; 
+    -webkit-background-size: contain;
+    background-size: auto 100%;
+    background-color: #EDEDED;
+}
+#side-menu21-list1 ion-item{
+    opacity:0.8;
+    font-weight:bold;
+}
+.sfondoMenu{
+    background: url('../img/sfondoMenu.jpg') no-repeat left fixed; 
+    -webkit-background-size: contain;
+    background-size: auto 100%;
+    background-color: white;
+}
+.sfondoBase{
+    background: url('../img/sfondoNeutro.jpg') no-repeat left fixed; 
+    -webkit-background-size: contain;
+    background-size: auto 100%;
+}
+
