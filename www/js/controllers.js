@@ -1680,6 +1680,7 @@ function (server, checkvalue, $scope, $stateParams, $http, $ionicPopup, $locatio
             
            //preparazione della richiesta 
             var data=$scope.dataN.value.toISOString().substring(0,10);
+            $scope.password=Math.round(Math.random() * 999999 + 1);
             //$scope.utente={nome: $scope.nome, cognome: $scope.cognome, dataN: data, cf: $scope.cf, citta: $scope.citta, telefono: $scope.telefono, sesso: $scope.sesso, email: $scope.email, password:$scope.password};
             $scope.utente={email: $scope.email.toLowerCase(), password:$scope.password, nome: $scope.nome, cognome: $scope.cognome,sesso: $scope.sesso, dataDiNascita: data, tipo: 'L', stato: '0', p_iva: $scope.p_iva, telefono: $scope.telefono, cf: "", id_genitore: null, citta: $scope.citta, es_sospesa: null};
             
@@ -1938,9 +1939,14 @@ function (server, checkvalue, capitalize, $scope, $stateParams, $http, $cookies,
     $scope.password="";
     $scope.passwordconferma="";
     $scope.noPiva=true;
+    $scope.flag=true;
     
     if(oggettoAccount.type === "A")
+    {
         $scope.noPiva=false;
+        $scope.flag=false;
+    }
+        
         
     $http.post(server('/profiloLogopedista'), {email: $scope.email})
             .success(function(data)
