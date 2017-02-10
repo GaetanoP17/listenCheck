@@ -1926,9 +1926,14 @@ function (server, checkvalue, capitalize, $scope, $stateParams, $http, $cookies,
     $scope.password="";
     $scope.passwordconferma="";
     $scope.noPiva=true;
+    $scope.flag=true;
     
     if(oggettoAccount.type === "A")
+    {
         $scope.noPiva=false;
+        $scope.flag=false;
+    }
+        
         
     $http.post(server('/profiloLogopedista'), {email: $scope.email})
             .success(function(data)
