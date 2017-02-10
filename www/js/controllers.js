@@ -1457,8 +1457,8 @@ function (server, $scope, $stateParams, $http, $ionicPopup, $location, $cookies,
 		}
 		
 	  $scope.Approva=function(){
-		  if(path_audio && path_img && $scope.nome && frequenza && decibel && $scope.myselecteditem){
-                        $http.post(server('/insert_suono'), {nomesuono: $scope.nome ,descrizione: $scope.myselecteditem, decibel: decibel, frequenza: frequenza, email : $cookies.getObject('account').email})
+		  if(path_audio && path_img && $scope.nome && frequenza && decibel && $scope.categoria){
+                        $http.post(server('/insert_suono'), {nomesuono: $scope.nome ,descrizione: $scope.categoria, decibel: decibel, frequenza: frequenza, email : $cookies.getObject('account').email})
                         .success(function(data)
                         {
                             ft.upload(path_audio, server('/upload_sound'), null, null);
@@ -1469,6 +1469,7 @@ function (server, $scope, $stateParams, $http, $ionicPopup, $location, $cookies,
                             title: 'ListenCheck',
                             template: "Suono inserito correttamente"
                             });
+			$location.path("/menuGestioneCommunity");
                         })
 				
 		  }else
@@ -1803,8 +1804,7 @@ function (server, checkvalue, $scope, $stateParams, $http, $ionicPopup, $locatio
 .controller('gestioneCommunityCtrl', ['server', '$scope', '$stateParams', '$cordovaCamera','$http', '$cordovaFile', '$cookies','$location', '$sce', '$ionicPopup',
   function (server, $scope, $stateParams, $cordovaCamera, $http, $cordovaFile, $cookies, $location, $sce, $ionicPopup)
   {		
-      var selected;
-	var decibel, frequenza;
+   	var decibel, frequenza;
 	var path_img;
 	var scelta = $cookies.getObject('selected');
 	var ft = new FileTransfer();	
@@ -1891,10 +1891,6 @@ function (server, checkvalue, $scope, $stateParams, $http, $ionicPopup, $locatio
 				frequenza=sel;
 		}
 	  
-		$scope.hasChanged = function() {
-				selected=$scope.myselecteditem;
-                                alert(selected);
-		}
 		
 	  $scope.Approva=function(){
                 $http.post(server('/update_suono'), {nomesuono: $scope.nome ,descrizione: $scope.myselecteditem, decibel: decibel, frequenza: frequenza, scelta: scelta})
@@ -1914,7 +1910,7 @@ function (server, checkvalue, $scope, $stateParams, $http, $ionicPopup, $locatio
             }
 				
 		$scope.Rifiuta=function(){
-                    $http.post(server('/delete_all'), {id: scelta}).success(function(data)
+                    $http.post(server('/delete_all'), {id: scelta})
                     {
                         var alert = $ionicPopup.alert({
                             title: 'ListenCheck',
@@ -1923,7 +1919,7 @@ function (server, checkvalue, $scope, $stateParams, $http, $ionicPopup, $locatio
                         alert.then(function() {
                             $location.path('/menuGestioneCommunity');
                         });
-                    });
+                    }
 		}
 		
 }])
