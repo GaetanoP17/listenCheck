@@ -309,10 +309,6 @@ function ($scope, $stateParams, $cookies, $location)
               {
                  $location.path('/Menu/menuLogopedista');
               }
-              
-              //metodo per recuperare i cookies
-              //var oggettoAccount=$cookies.getObject('account');
-              //alert(oggettoAccount.state);
             }  
              })
              .error(function()
@@ -1349,23 +1345,32 @@ function (server, $scope, $stateParams, $http, $ionicPopup, $location, $cookies,
              {
                  $scope.names=[];
 		 for (i=0; i<ris.length;i++){	
-		 var x = {};
-			x.data= ris[i].data.substring(0,10)+" ";
-			x.tipo=  ris[i].tipo+" ";
-			x.fascia=  ris[i].fascia+" ";
-			x.id= i;
-			esercitazione[i]=ris[i].quesiti;
-			$scope.names.push(x);
-			
-			}
+                    var x = {};
+                    var data = ris[i].data.substring(0,10);
+                    var mese = data.substring(5,7);
+                    var giorno = data.substring(8);
+                    x.data= giorno+'/'+mese+'/'+data.substring(0,4);
+                    if(ris[i].tipo === 'frequenza'){
+                        x.tipo = "Fr";
+                    }
+                    else
+                    {
+                        x.tipo = "Db";
+                    }
+                    x.fascia=  ris[i].fascia;
+                    x.id= i;
+                    esercitazione[i]=ris[i].quesiti;
+                    $scope.names.push(x);
+		}
              }
 	  });
-      }
-      	  $scope.visualizza=function(scelta){
+          $scope.visualizza=function(scelta){
 		  scelta=parseInt(scelta);
 		  $cookies.putObject('esercitazione', esercitazione[scelta]);
 		  $location.path('/visualizzaProgressiPaziente');
 		}
+      }
+      	  
 	
 	
 }])
@@ -1772,12 +1777,10 @@ function (server, checkvalue, $scope, $stateParams, $http, $ionicPopup, $locatio
 	  });
         
 	$scope.hasChanged = function() {
-		selected=$scope.myselecteditem;
-	
+		selected=$scope.myselecteditem;	
 	}
 	$scope.invia=function()
         {
-            alert($scope.myselecteditem);
 		if(selected==0)
                 {
                     $ionicPopup.alert({
@@ -1798,8 +1801,8 @@ function (server, checkvalue, $scope, $stateParams, $http, $ionicPopup, $locatio
 
 .controller('gestioneCommunityCtrl', ['server', '$scope', '$stateParams', '$cordovaCamera','$http', '$cordovaFile', '$cookies','$location', '$sce', '$ionicPopup',
   function (server, $scope, $stateParams, $cordovaCamera, $http, $cordovaFile, $cookies, $location, $sce, $ionicPopup)
-  {
-	  		     
+  {		
+      var selected;
 	var decibel, frequenza;
 	var path_img;
 	var scelta = $cookies.getObject('selected');
@@ -1814,7 +1817,7 @@ function (server, checkvalue, $scope, $stateParams, $http, $ionicPopup, $locatio
 		 for(i=0;i<data.length;i++)
                  {
                     var x1 = {};
-                     x1.drname = data[i].nome;
+                     x1.drname = data[i].categoria;
                      x1.text="";
                     $scope.names.push(x1);
                 }
@@ -1889,26 +1892,37 @@ function (server, checkvalue, $scope, $stateParams, $http, $ionicPopup, $locatio
 	  
 		$scope.hasChanged = function() {
 				selected=$scope.myselecteditem;
+                                alert(selected);
 		}
 		
 	  $scope.Approva=function(){
                 $http.post(server('/update_suono'), {nomesuono: $scope.nome ,descrizione: $scope.myselecteditem, decibel: decibel, frequenza: frequenza, scelta: scelta})
                 .success(function(data)
                 {
-                    ft.upload(path_img, server('/upload_image'), null, null);
-                $ionicPopup.alert({
-                    title: 'ListenCheck',
-                    template: 'Suono inserito'
+                    if(path_img)
+                    ft.upload(path_img, server('/upload_image'));
+                    var alert = $ionicPopup.alert({
+                        title: 'ListenCheck',
+                        template: 'Suono inserito'
                     });
-                })	
-		}
+                    alert.then(function() {
+                        $location.path('/menuGestioneCommunity');
+                    }); 
+                        
+                });
+            }
 				
 		$scope.Rifiuta=function(){
-					$http.post(server('/delete_all'), {id: scelta});
-                                        $ionicPopup.alert({
-                                        title: 'ListenCheck',
-                                        template: 'Suono Eliminato'
-                                        });
+                    $http.post(server('/delete_all'), {id: scelta}).success(function(data)
+                    {
+                        var alert = $ionicPopup.alert({
+                            title: 'ListenCheck',
+                            template: 'Suono Eliminato'
+                        });
+                        alert.then(function() {
+                            $location.path('/menuGestioneCommunity');
+                        });
+                    });
 		}
 		
 }])
