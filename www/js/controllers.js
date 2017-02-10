@@ -1355,17 +1355,18 @@ function (server, $scope, $stateParams, $http, $ionicPopup, $location, $cookies,
 			x.fascia=  ris[i].fascia+" ";
 			x.id= i;
 			esercitazione[i]=ris[i].quesiti;
-			$scope.names.push(x);
+                	$scope.names.push(x);
 			
 			}
              }
 	  });
-      }
-      	  $scope.visualizza=function(scelta){
+           $scope.visualizza=function(scelta){
 		  scelta=parseInt(scelta);
 		  $cookies.putObject('esercitazione', esercitazione[scelta]);
 		  $location.path('/visualizzaProgressiPaziente');
 		}
+      }
+      	 
 	
 	
 }])
