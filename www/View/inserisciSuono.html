@@ -7,19 +7,19 @@
 	  <audio id="myAudio"  ng-src="{{imm_b}}"  type="audio/mpeg" preload="auto">
 	  </audio>
       <h3 id="inserisciSuono-heading15" style="color:#FF1300;text-align:center;">Inserisci Suono</h3>
+      <div class="spacer" style="width: 280px; height: 18px;"></div>
       <h4 id="inserisciSuono-heading20" style="color:#0F71DE;">Nome del suono</h4>
       <label class="item item-input" id="inserisciSuono-input28" name="nome">
         <input type="text" placeholder="" ng-model="nome">
       </label>
       <h4 id="inserisciSuono-heading21" style="color:#0F71DE;">Categoria</h4>
       <label class="item item-input" id="inserisciSuono-input29" name="categoria">
-      <textarea rows="4" cols="50" ng-model="categoria" >
-	  </textarea>
+      <input type="text" placeholder="" ng-model="categoria">	
       </label>
       <div class="spacer" style="width: 280px; height: 17px;"></div>
       <div style="text-align:center">
-      <button id="inserisciSuono-button27" style="width:43%; margin-left:5%; font-weight:500;color:#FFFFFF;font-size:15px;border-radius:50px 50px 50px 50px;" class="button button-balanced  icon-left ion-mic-a" ng-click="riproduci()">Registra l'audio</button>&nbsp
-      <button id="inserisciSuono-button27" style="width:43%; margin-right:5%;font-weight:500;color:#FFFFFF;font-size:15px;border-radius:50px 50px 50px 50px;" class="button button-energized  icon-left ion-camera" ng-click="imageCapture()">Scatta la foto</button>
+      <button id="inserisciSuono-button27" style="width:43%; margin-left:5%; font-weight:500;color:#FFFFFF;font-size:15px;border-radius:50px 50px 50px 50px;" class="button button-balanced  icon-left ion-mic-a" ng-click="riproduci()">Registra</button>&nbsp
+      <button id="inserisciSuono-button27" style="width:43%; margin-right:5%;font-weight:500;color:#FFFFFF;font-size:15px;border-radius:50px 50px 50px 50px;" class="button button-energized  icon-left ion-camera" ng-click="imageCapture()">Scatta</button>
       </div>
       <div class="spacer" style="width: 280px; height: 17px;"></div>
 	 <h4 id="inserisciSuono-heading19" style="color:#0F71DE;">Cataloga in: </h4>

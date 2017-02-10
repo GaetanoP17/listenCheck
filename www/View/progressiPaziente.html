@@ -13,16 +13,16 @@
     <div class="spacer" style="width: 300px; height: 13px;"></div>
 	<table style = "width: 100%; " id="tabella" >
 	<tr style = "background-color: #0F71DE; color: white;">
-	<td><h5 style="color:white; text-align:center;">&nbsp; Data &nbsp;</h5> </td>
-		<td><h5 style="color:white; text-align:center;" >&nbsp; Tipo &nbsp;</h5> </td>
-		<td><h5 style="color:white; text-align:center;">&nbsp; Fascia &nbsp;</h5> </td>
-		<td><h5 style="color:white; text-align:center;">&nbsp; Visualizza risultati &nbsp;</h5> </td>
+                <th style="width: 30%;"><h5 style="color:white;">Data</h5> </th>
+		<th style="width: 10%;"><h5 style="color:white;">Tipo</h5> </th>
+		<th style="width: 40%;"><h5 style="color:white;">Fascia</h5> </th>
+		<th style="width: 20%;"><h5 style="color:white;">Dettagli</h5> </th>
 	</tr>
 	<tr ng-repeat="x in names">
-		<td><h5 style="color:#000000; text-align:center;" >&nbsp; {{ x.data }} &nbsp;</h5></td>
-		<td><h5 style="color:#000000; text-align:center;" >&nbsp; {{ x.tipo }} &nbsp;</h5></td>
-		<td><h5 style="color:#000000; text-align:center;" >&nbsp; {{ x.fascia }} &nbsp;</h5></td>
-		<td><p style="color:#FF1300; text-align:center;" ><em>&nbsp; <i ng-click="visualizza(&#34;{{ x.id }} &#34;)" style ="font-size:26px; color:#000000;" class="icon ion-clipboard placeholder-icon "></i>  &nbsp;</em></p></td>
+		<td style="text-align:center;"><h5>{{ x.data }}</h5></td>
+		<td style="text-align:center;"><h5>{{ x.tipo }}</h5></td>
+		<td style="text-align:center;"><h5>{{ x.fascia }}</h5></td>
+		<td style="text-align:center;"><i ng-click="visualizza(&#34;{{ x.id }} &#34;)" style ="font-size:26px; color:#000000; margin-top: 10%;" class="icon ion-clipboard placeholder-icon "></i></td>
     </tr>
 	</table>
     <div style="margin: 0px; line-height: 250px; background-color: rgb(232, 235, 239); text-align: center;">

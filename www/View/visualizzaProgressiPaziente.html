@@ -2,26 +2,29 @@
   <ion-nav-buttons side="left" class="has-header">
     <a ui-sref="progressiPaziente" class="button icon-left ion-chevron-left button-clear button-white">&nbsp;Back</a>
   </ion-nav-buttons>
-  <ion-nav-buttons side="right" class="has-header sfondoBase">
+  <ion-nav-buttons side="right" class="has-header">
     <a ui-sref="side-menu21.menuLogopedista" class="button button-icon icon ion-android-close"></a>
   </ion-nav-buttons>
-  <ion-content padding="true" class="has-header">
+  <ion-content padding="true" class="has-header sfondoBase">
     <form id="menuGestioneCommunity-form13" class="list" ng-controller="visualizzaProgressiPazienteCtrl">
     <h3 id="visualizzaProgressiPaziente-heading26" style="color:#FF1300;text-align:center;">Progressi Paziente</h3>
 	<div class="spacer" style="width: 300px; height: 13px;"></div>
     <h4 id="visualizzaProgressiPaziente-heading13" style="color:#0F71DE; text-align:center;" >Quesiti</h4>
     <div class="spacer" style="width: 300px; height: 13px;"></div>
 	<table style = "width: 100%; " id="tabella" >
-	<tr style = "background-color: #0F71DE; color: white;">
-	<td><h5 style="color:white; text-align:center;">&nbsp; Nome &nbsp;</h5> </td>
-		<td><h5 style="color:white; text-align:center;" >&nbsp; Ascolti &nbsp;</h5> </td>
-		<td><h5 style="color:white; text-align:center;">&nbsp; Esito &nbsp;</h5> </td>
-	</tr>
-	<tr ng-repeat="x in names">
-		<td><h5 style="color:#000000; text-align:center;" >&nbsp; {{ x.nome }} &nbsp;</h5></td>
-		<td><h5 style="color:#000000; text-align:center;" >&nbsp; {{ x.ascolti }} &nbsp;</h5></td>
-		<td><h5 style="color:#000000; text-align:center;" >&nbsp; {{ x.esito }} &nbsp;</h5></td>
-    </tr>
+            <tr style = "background-color: #0F71DE; color: white;">
+            <td><h5 style="color:white; text-align:center;">&nbsp; Nome &nbsp;</h5> </td>
+                    <td><h5 style="color:white; text-align:center;" >&nbsp; Ascolti &nbsp;</h5> </td>
+                    <td><h5 style="color:white; text-align:center;">&nbsp; Esito &nbsp;</h5> </td>
+            </tr>
+            <tr ng-repeat="x in names">
+                    <td><h5 style="color:#000000; text-align:center;" >&nbsp; {{ x.nome }} &nbsp;</h5></td>
+                    <td><h5 style="color:#000000; text-align:center;" >&nbsp; {{ x.ascolti }} &nbsp;</h5></td>
+                    <td style="text-align:center;">
+                        <i ng-show={{x.esito}} style="font-size: 24px; color:#0FC912;" class="icon ion-checkmark-circled"></i>
+                        <i ng-hide={{x.esito}} style="font-size: 24px; color:#DE1414;" class="icon ion-close-circled"></i>
+                    </td>
+         </tr>
 	</table>
     <div style="margin: 0px; line-height: 250px; background-color: rgb(232, 235, 239); text-align: center;">
     </div>
