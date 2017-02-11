@@ -13,7 +13,7 @@
       </label>
       <h4 id="gestioneCommunity-heading21" style="color:#0F71DE;">Categoria</h4>
       <label class="item item-input" id="gestioneCommunity-input29" name="categoria">		 
-		 <input list="testList" type="search" ng-model="myselecteditem"  ng-change="hasChanged()"/>
+		 <input list="testList" type="search" ng-model="myselecteditem"/>
     <datalist id="testList">
         <option ng-repeat="x1 in names" value="{{x1.drname}}">{{x1.text}}</option>
     </datalist>
@@ -21,7 +21,7 @@
       <div class="spacer" style="width: 280px; height: 17px;"></div>
       <button id="gestioneCommunity-button27" style="width:70%; margin-left:15%; margin-right:15%; font-weight:500;color:#FFFFFF;font-size:20px;border-radius:50px 50px 50px 50px;" class="button button-positive  button-block icon-left ion-ios-play" ng-click="riproduci()">Riproduci</button>
      <div style="margin: 0px; line-height: 10px; background-color: rgb(232, 235, 239); text-align: center;">
-      <img id="imm_a" ng-src="{{imm_a}}" ng-click="imageCapture()" ng-model="image" />
+      <img id="imm_a" ng-src="{{imm_a}}" />
      </div>
      <h4 id="gestioneCommunity-heading19" style="color:#0F71DE;">Cataloga in: </h4>
       <label class="item item-select" id="gestioneCommunity-select10" name="decibel">
