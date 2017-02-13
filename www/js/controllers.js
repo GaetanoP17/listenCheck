@@ -242,8 +242,8 @@ function (server, $scope, $stateParams, $http, $cookies, $ionicPopup)
 
 }])
    
-.controller('side-menu21Ctrl', ['$scope', '$stateParams', '$cookies','$location',
-function ($scope, $stateParams, $cookies, $location) 
+.controller('side-menu21Ctrl', ['server','$scope', '$stateParams', '$cookies','$location','$http','$ionicPopup',
+function (server,$scope, $stateParams, $cookies, $location, $http, $ionicPopup) 
 {
     var tipo= $cookies.getObject('account').type;
     $scope.flag=true;
@@ -260,6 +260,41 @@ function ($scope, $stateParams, $cookies, $location)
     {
         $cookies.remove('account');
     }
+    
+    $scope.disattiva=function()
+    {
+        var popup=$ionicPopup.confirm({
+                    title: 'ListenCheck',
+                    template: 'Sei sicuro di voler disattivate il tuo account?'
+                    });
+        popup.then(function(res) 
+        {
+            if(res)
+            {
+                $http.post(server('/login/disattiva'), {email: $cookies.getObject('account').email})
+                .success(function(data)
+                {
+                    $cookies.remove('account');
+                    //se l'account appartiene ad un utente audioleso allora elimina la collaborazione
+                    if(tipo === 'U')
+                        $http.post(server('/cercaLogopedista/disassocia'), {email: $cookies.getObject('account').email});
+                    
+                    $ionicPopup.alert({
+                        title: 'ListenCheck',
+                        template: 'Account disattivato correttamente'
+                        });
+                    $location.path('/login');
+                })
+                .error(function()
+                {
+                    $ionicPopup.alert({
+                        title: 'ListenCheck',
+                        template: 'Problemi con il server...Riprovare più tardi'
+                        });
+                });
+            }
+        });
+    }
 }])
    
 .controller('loginCtrl', ['server', '$scope', '$stateParams', '$http', '$cookies','$location','$ionicPopup',
@@ -273,6 +308,10 @@ function ($scope, $stateParams, $cookies, $location)
         if($scope.email === "" || $scope.password === "")
         {
             //se non compila i campi non parte la richiesta
+        }
+        if($scope.accedi.$invalid)
+        {
+            //viene mostrato il messaggio relativo ad un errore nell'email
         }
         else
         {
