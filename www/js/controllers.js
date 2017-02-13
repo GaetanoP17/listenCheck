@@ -1435,91 +1435,99 @@ function (server, $scope, $stateParams, $http, $ionicPopup, $location, $cookies,
 	  
 	var decibel, frequenza;
 	var path_audio,path_img;	
-        var ft = new FileTransfer();
-	
+    var ft = new FileTransfer();
+	$http.post(server('/categorie'))
+		.success(function(data)
+		  {
+			 $scope.names=[];
+			 for(i=0;i<data.length;i++)
+					 {
+						var x1 = {};
+						 x1.drname = data[i].categoria;
+						 x1.text="";
+						$scope.names.push(x1);
+					}
+		  });
+		 
 	$scope.riproduci=function(){
-			var options = {
+		var options = {
 			limit: 1,
 			duration: 10
-	   };
-	   
-	   navigator.device.capture.captureAudio(onSuccess, onError, options);
-	   
-	   function onSuccess(mediaFiles) {
+	    };
+		   
+		navigator.device.capture.captureAudio(onSuccess, onError, options);
+		   
+        function onSuccess(mediaFiles) {
 		  var i, len;
 		  path_audio="";
 		  for (i = 0, len = mediaFiles.length; i < len; i += 1) {
 			 path_audio=path_audio + mediaFiles[i].fullPath;       
 		  }
-	   }
+		}
 
-	   function onError(error) 
-           {
-               var err='Capture Error \n Error code: ' + error.code;
-               
-                    $ionicPopup.alert({
-                    title: 'ListenCheck',
-                    template: err
-                    });
-	   }
-	
+		function onError(error){
+		   var err='Capture Error \n Error code: ' + error.code;
+           $ionicPopup.alert({
+				title: 'ListenCheck',
+				template: err
+		   });
+		}
+		
 	}	
-	  
-	  $scope.imageCapture=function(){
-		  var options = {
-			  quality: 75,
-			  destinationType: Camera.DestinationType.FILE_URI,
-			  sourceType: Camera.PictureSourceType.CAMERA,
-			  allowEdit: false,
-			  targetWidth: 338,
-			  targetHeight: 338,
-			  encodingType: Camera.EncodingType.JPEG,
-			  mediaType:Camera.PICTURE,
-			  saveToPhotoAlbum: false,
-                          correctOrientation: true
-		   };
+		  
+    $scope.imageCapture=function(){
+	    var options = {
+		    quality: 75,
+			destinationType: Camera.DestinationType.FILE_URI,
+			sourceType: Camera.PictureSourceType.CAMERA,
+			allowEdit: false,
+			targetWidth: 338,
+			targetHeight: 338,
+			encodingType: Camera.EncodingType.JPEG,
+			mediaType:Camera.PICTURE,
+			saveToPhotoAlbum: false,
+			correctOrientation: true
+	    };
 
-		   $cordovaCamera.getPicture(options).then(function(imageData) {
-				$scope.imm_a =imageData;	
-				path_img=imageData;	
-			}, function(err) {
-				  // error
-			});
-		}
-		
-	  $scope.decibel=function(sel){
-				decibel=sel;
-		}
-		
-	  $scope.frequenza=function(sel){
-				frequenza=sel;
-		}
-		
-	  $scope.Approva=function(){
-		  if(path_audio && path_img && $scope.nome && frequenza && decibel && $scope.categoria){
-                        $http.post(server('/insert_suono'), {nomesuono: $scope.nome ,descrizione: $scope.categoria, decibel: decibel, frequenza: frequenza, email : $cookies.getObject('account').email})
-                        .success(function(data)
-                        {
-                            ft.upload(path_audio, server('/upload_sound'), null, null);
-                            ft.upload(path_img, server('/upload_image'), null, null);
-                            path_img="";
-                            path_audio="";
-                            $ionicPopup.alert({
-                            title: 'ListenCheck',
-                            template: "Suono inserito correttamente"
-                            });
-			$location.path("/menuGestioneCommunity");
-                        })
-				
-		  }else
-                  {
-                      $ionicPopup.alert({
-                        title: 'ListenCheck',
-                        template: "Compila tutti i campi e associa l'audio e l'immagine"
-                        });
-		  }
-		}
-				
+	    $cordovaCamera.getPicture(options).then(function(imageData) {
+			$scope.imm_a =imageData;	
+			path_img=imageData;	
+		}, function(err) {
+		    // error
+		});
+	}
+			
+	$scope.decibel=function(sel){
+		decibel=sel;
+	}
+			
+	$scope.frequenza=function(sel){
+		frequenza=sel;
+	}
+			
+	$scope.Approva=function(){
+	  if(path_audio && path_img && $scope.nome && frequenza && decibel && $scope.myselecteditem){
+		$http.post(server('/insert_suono'), {nomesuono: $scope.nome ,descrizione: $scope.myselecteditem, decibel: decibel, frequenza: frequenza, email : $cookies.getObject('account').email})
+	 	 .success(function(data)
+			{
+				ft.upload(path_audio, server('/upload_sound'), null, null);
+				ft.upload(path_img, server('/upload_image'), null, null);
+				path_img="";
+				path_audio="";
+				$ionicPopup.alert({
+					title: 'ListenCheck',
+					template: "Suono inserito correttamente"
+				});
+				$location.path("/menuGestioneCommunity");
+			})
+					
+	  }else{
+	     $ionicPopup.alert({
+			title: 'ListenCheck',
+			template: "Compila tutti i campi e associa l'audio e l'immagine"
+		 });
+	  }
+    }			
 		
 }])
    
@@ -1798,46 +1806,47 @@ function (server, checkvalue, $scope, $stateParams, $http, $ionicPopup, $locatio
   function (server, $scope, $stateParams, $cordovaCamera, $http, $cordovaFile, $cookies, $location, $ionicPopup)
   {
 	var selected; 
-        $scope.myselecteditem="";
+    $scope.myselecteditem="";
+
 	$http.post(server('/menucommunity/files'))
-      .success(function(data)
-      {
-		$scope.myitemlist = [];
-		if(data.length==0){
+	  .success(function(data)
+	    {
+		  $scope.myitemlist = [];
+		  if(data.length==0){
 			ino="Non vi sono suoni da controllare";
 			$scope.info=ino;
 			selected=0;
-		}
-		 for(i=0;i<data.length;i++){
-		  var item = {};
-		  item.value = data[i].id;
-		  item.text = data[i].nome;
-		  $scope.myitemlist.push(item);
-		}
-		
-	  });
-        
+		  }
+		  for(i=0;i<data.length;i++){
+			var item = {};
+			item.value = data[i].id;
+			item.text = data[i].nome;
+			$scope.myitemlist.push(item);
+		  }
+			
+		});
+			
 	$scope.hasChanged = function() {
 		selected=$scope.myselecteditem;	
 	}
-	$scope.invia=function()
-        {
-		if(selected==0)
-                {
-                    $ionicPopup.alert({
-                        title: 'ListenCheck',
-                        template: "Non vi sono suoni da controllare"
-                        });
+	
+	$scope.invia=function(){
+		if(selected==0){
+			$ionicPopup.alert({
+				title: 'ListenCheck',
+				template: "Non vi sono suoni da controllare"
+			});
 		}
-                else
-                {
+		else
+		{
 			$cookies.putObject('selected', selected);
 			$location.path('/gestioneCommunity');
 		}
 	}
+		
 	$scope.invia2=function(){
 		$location.path('/inserisciSuono');
-	}
+	}	
 }])
 
 .controller('gestioneCommunityCtrl', ['server', '$scope', '$stateParams', '$cordovaCamera','$http', '$cordovaFile', '$cookies','$location', '$sce', '$ionicPopup',
@@ -1848,118 +1857,90 @@ function (server, checkvalue, $scope, $stateParams, $http, $ionicPopup, $locatio
 	var scelta = $cookies.getObject('selected');
 	var ft = new FileTransfer();	
 	
-        $scope.esamina= function()
-        {
-            $http.post(server('/categorie'))
-            .success(function(data)
-            {
-		 $scope.names=[];
-		 for(i=0;i<data.length;i++)
-                 {
+    $scope.esamina= function(){
+        $http.post(server('/categorie'))
+        .success(function(data){
+			$scope.names=[];
+			for(i=0;i<data.length;i++)
+                {
                     var x1 = {};
-                     x1.drname = data[i].categoria;
-                     x1.text="";
+                    x1.drname = data[i].categoria;
+                    x1.text="";
                     $scope.names.push(x1);
                 }
-	 });
-       
-       $http.post(server('/menucommunity/esiste'),{file:scelta}).success(function(data){
-           if(data === "SI"){
+		});
+      
+        $http.post(server('/menucommunity/esiste'),{file:scelta}).success(function(data){
+            if(data === "SI"){
                $http.post(server('/menucommunity/files'))
                     .success(function(data)
                     {
-                               for(i=0;i<data.length;i++){
-                                       if(scelta==data[i].id){
-                                              $scope.nome=data[i].nome;
-                                              var x1 = {};
-                                              x1.drname = data[i].categoria;
-                                              x1.text="Inserito dall'utente";
-                                              $scope.names.push(x1);
-                                              $scope.imm_a = $sce.trustAsResourceUrl(server('/images/'+scelta+'.png'));
-                                              $scope.imm_b = $sce.trustAsResourceUrl(server('/sounds/'+scelta+'.mp3'));
-                                              break;
-                                       }
-                               }
-                        });
-           }
-           else 
-               {
-                                                  $ionicPopup.alert({
-                                                  title: 'ListenCheck',
-                                                  template: 'E\' necessario modificare il suono manualmente e collocarlo nella cartella Sound'
-                                                  });
-
-                                                  $location.path("/menuGestioneCommunity");
-                                              }
+                        for(i=0;i<data.length;i++){
+                            if(scelta==data[i].id){
+                                $scope.nome=data[i].nome;
+                                var x1 = {};
+                                x1.drname = data[i].categoria;
+                                x1.text="Inserito dall'utente";
+                                $scope.names.push(x1);
+                                $scope.imm_a = $sce.trustAsResourceUrl(server('/images/'+scelta+'.png'));
+                                $scope.imm_b = $sce.trustAsResourceUrl(server('/sounds/'+scelta+'.mp3'));
+                                break;
+                            }
+                        }
+                    });
+            }
+            else{
+                    $ionicPopup.alert({
+                        title: 'ListenCheck',
+                        template: 'E\' necessario modificare il suono manualmente e collocarlo nella cartella Sound'
+                    });
+                    $location.path("/menuGestioneCommunity");
+                }
                                               
            
        });
-        }	  
-	  $scope.riproduci=function(){
+    }	  
+	
+	$scope.riproduci=function(){
 		var x = document.getElementById("myAudio"); 
 		x.play();               
-	  }
-	  
-	  $scope.imageCapture=function(){
-		  var options = {
-			  quality: 75,
-			  destinationType: Camera.DestinationType.FILE_URI,
-			  sourceType: Camera.PictureSourceType.CAMERA,
-			  allowEdit: false,
-			  targetWidth: 338,
-			  targetHeight: 338,
-			  encodingType: Camera.EncodingType.JPEG,
-			  mediaType:Camera.PICTURE,
-			  saveToPhotoAlbum: false,
-                          correctOrientation: true
-		   };
-
-		   $cordovaCamera.getPicture(options).then(function(imageData) {
-				$scope.imm_a =imageData;	
-				path_img=imageData;	
-			}, function(err) {
-				  // error
-			});
-		}
+	}
 		
-	  $scope.decibel=function(sel){
-				decibel=sel;
-		}
+	$scope.decibel=function(sel){
+		decibel=sel;
+	}
 		
-	  $scope.frequenza=function(sel){
-				frequenza=sel;
-		}
-	  
-		
-	  $scope.Approva=function(){
-                $http.post(server('/update_suono'), {nomesuono: $scope.nome ,descrizione: $scope.myselecteditem, decibel: decibel, frequenza: frequenza, scelta: scelta})
-                .success(function(data)
-                {
-                    if(path_img)
-                    ft.upload(path_img, server('/upload_image'));
+	$scope.frequenza=function(sel){
+		frequenza=sel;
+	}
+	  	
+	$scope.Approva=function(){
+        $http.post(server('/update_suono'), {nomesuono: $scope.nome ,descrizione: $scope.myselecteditem, decibel: decibel, frequenza: frequenza, scelta: scelta})
+            .success(function(data)
+                {                
                     var alert = $ionicPopup.alert({
-                        title: 'ListenCheck',
-                        template: 'Suono inserito'
+						title: 'ListenCheck',
+						template: 'Suono inserito'
                     });
                     alert.then(function() {
                         $location.path('/menuGestioneCommunity');
                     }); 
                         
                 });
-            }
-				
-		$scope.Rifiuta=function(){
-                    $http.post(server('/delete_all'), {id: scelta})
-                    {
-                        var alert = $ionicPopup.alert({
-                            title: 'ListenCheck',
-                            template: 'Suono Eliminato'
-                        });
-                        alert.then(function() {
-                            $location.path('/menuGestioneCommunity');
-                        });
-                    }
-		}
+    }
+		   
+	$scope.Rifiuta=function(){
+        $http.post(server('/delete_all'), {id: scelta})
+			
+                var alert = $ionicPopup.alert({
+                    title: 'ListenCheck',
+                    template: 'Suono Eliminato'
+                });
+                alert.then(function() {
+                    $location.path('/menuGestioneCommunity');
+                });
+            
+	}
 		
 }])
 
