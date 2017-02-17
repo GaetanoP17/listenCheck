@@ -1,12 +1,12 @@
 #intestazione{
-    position: fixed;
+    position: absolute;
     left: 0px;
     right: 0px; 
-    top: 48px;
+    top: 0px;
 }
 #int_categoria{
     position: absolute;
-    top: 5px;
+    top: 10px;
     width: 100%; 
     text-align: center;
 }
@@ -21,7 +21,7 @@
     left: 3px;
     right: 2%; 
     height: 30px; 
-    top: 35px;
+    top: 40px;
     z-index: 1;
 }
 #int_barra{
@@ -30,7 +30,7 @@
     right: 3%; 
     height: 30px;
     background-color: #BABABA;
-    top: 36px;
+    top: 40px;
     z-index: 2;
 }
 #loading{

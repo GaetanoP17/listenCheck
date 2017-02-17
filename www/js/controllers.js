@@ -1022,8 +1022,8 @@ function (apprendimento, server, $scope, $stateParams, $http, $location, $ionicP
         $scope.jukebox = $sce.trustAsResourceUrl(server('/sounds/'+suono.id+'.mp3'));
         $scope.immagine = server('/images/'+suono.id+'.png');  
         $scope.nome = suono.nome;
-        $scope.decibel = suono.decibel.replace("_", " - ");;
-        $scope.frequenza = suono.frequenza.replace("_", " - ");;
+        $scope.decibel = suono.decibel.replace("_", " - ");
+        $("#view_frequenza").html(suono.frequenza.replace("_", " - "));
     }
     
     $scope.ready = function() {

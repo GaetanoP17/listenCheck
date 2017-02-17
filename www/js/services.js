@@ -2,7 +2,8 @@ angular.module('app.services', [])
 
 .factory('server', function() { 
         return function(indirizzo) { 
-            return ('http://www.sesa.unisa.it:443' + indirizzo);
+            //www.sesa.unisa.it:443
+            return ('http://172.19.39.231:3000' + indirizzo);
         }
 })
 .factory('capitalize', function()
