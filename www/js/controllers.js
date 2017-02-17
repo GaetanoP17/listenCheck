@@ -276,14 +276,19 @@ function (server,$scope, $stateParams, $cookies, $location, $http, $ionicPopup)
                 {
                     $cookies.remove('account');
                     //se l'account appartiene ad un utente audioleso allora elimina la collaborazione
-                    if(tipo === 'U')
-                        $http.post(server('/cercaLogopedista/disassocia'), {email: $cookies.getObject('account').email});
                     
-                    $ionicPopup.alert({
+                    var popup1=$ionicPopup.alert({
                         title: 'ListenCheck',
                         template: 'Account disattivato correttamente'
                         });
-                    $location.path('/login');
+                        popup1.then(function(res)
+                        {
+                             $location.path('/login');
+                    
+                            if(tipo === 'U')
+                            $http.post(server('/cercaLogopedista/disassocia'), {email: $cookies.getObject('account').email});
+                    
+                        })
                 })
                 .error(function()
                 {
