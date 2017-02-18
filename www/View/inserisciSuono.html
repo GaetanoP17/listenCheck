@@ -12,13 +12,18 @@
       <label class="item item-input" id="inserisciSuono-input28" name="nome">
         <input type="text" placeholder="" ng-model="nome">
       </label>
-       <h4 id="gestioneCommunity-heading21" style="color:#0F71DE;">Categoria</h4>
-      <label class="item item-input" id="gestioneCommunity-input29" name="categoria">		 
-		 <input list="testList" type="search" ng-model="myselecteditem"/>
-    <datalist id="testList">
-        <option ng-repeat="x1 in names" value="{{x1.drname}}">{{x1.text}}</option>
-    </datalist>
+       <h4 id="inserisciSuono-heading21" style="color:#0F71DE;">Categoria</h4>
+      <label class="item item-input" id="inserisciSuono-input28" name="categoria">
+        <input type="text" placeholder="" ng-model="categoria">
       </label>
+      <div class="item item-body" id="inserisciSuono-list-item-container1">
+        <ion-list id="inserisciSuono-list14">
+            <ion-list id="inserisciSuono-list16">
+            <ion-item class="item-icon-right positive" id="inserisciSuono-list-item16" ng-repeat="sospeso in sospesi | filter: categoria" ng-model="sospesi" ng-click="hasChange(sospeso.categoria)">  {{sospeso.categoria}}  
+            </ion-item>
+          </ion-list>
+        </ion-list>
+      </div>
       <div class="spacer" style="width: 280px; height: 17px;"></div>
       <div style="text-align:center">
       <button id="inserisciSuono-button27" style="width:43%; margin-left:5%; font-weight:500;color:#FFFFFF;font-size:15px;border-radius:50px 50px 50px 50px;" class="button button-balanced  icon-left ion-mic-a" ng-click="riproduci()">Registra</button>&nbsp

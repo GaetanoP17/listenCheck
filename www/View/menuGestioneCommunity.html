@@ -6,23 +6,34 @@
     <form id="menuGestioneCommunity-form13" class="list" ng-controller="menuGestioneCommunityCtrl">
       <h3 id="menuGestioneCommunity-heading14" style="color:#FF1300;text-align:center;">Gestione Community</h3>
       <div class="spacer" style="width: 300px; height: 18px;"></div>
+      <h4 id="menuGestioneCommunity-heading14"  style="color:#0F71DE;text-align:center;">Inserisci suono</h4>
+      <div class="spacer" style="width: 300px; height: 18px;"></div>
+      <a  id="menuGestioneCommunity-button23" style="width:70%; margin-left:15%; margin-right:15%; font-weight:500;color:#FFFFFF;font-size:20px;border-radius:50px 50px 50px 50px;" class="button button-positive  button-block icon-left ion-music-note" ng-click="inseriscisuono()">Inserisci suono</a>
+      <div class="spacer" style="width: 300px; height: 18px;"></div>
+      <div  ng-show="sospesi.length>0">
       <h4 id="menuGestioneCommunity-heading14"  style="color:#0F71DE;text-align:center;">Cerca suono condiviso dalla community</h4>
+      </div>
       <div class="spacer" style="width: 300px; height: 18px;"></div>
-	  <label class="item item-input" id="menuGestioneCommunity-search4" name="cerca">
+      <label class="item item-input" id="menuGestioneCommunity-search4" ng-show="sospesi.length>0">
         <i class="icon ion-search placeholder-icon"></i>
-        <input type="search" placeholder="Cerca Suono " list="myselecteditem" ng-change="hasChanged()"  ng-model="myselecteditem">
-		<datalist id="myselecteditem">
-  			 <option ng-repeat="item in myitemlist" value=" {{item.value}}" >{{item.text}}</option>
-		</datalist>
+        <input type="search" placeholder="Cerca Suono "  ng-model="nome">
       </label>
-      <div class="spacer" style="width: 300px; height: 15px;"></div>
-      <h3 id="menuGestioneCommunity-heading14" style="color:#FF1300;text-align:center;" >{{info}}</h3>
       <div class="spacer" style="width: 300px; height: 18px;"></div>
-	  <a  id="menuGestioneCommunity-button23" style="width:70%; margin-left:15%; margin-right:15%; font-weight:500;color:#FFFFFF;font-size:20px;border-radius:50px 50px 50px 50px;" class="button button-positive  button-block icon-left ion-android-settings" ng-click="invia()" ng-disabled="myselecteditem ===''">Esamina</a>
-	</form>
-	<h4 id="menuGestioneCommunity-heading14"  style="color:#0F71DE;text-align:center;">Inserisci suono</h4>
-	<div class="spacer" style="width: 300px; height: 18px;"></div>
-	<a  id="menuGestioneCommunity-button23" style="width:70%; margin-left:15%; margin-right:15%; font-weight:500;color:#FFFFFF;font-size:20px;border-radius:50px 50px 50px 50px;" class="button button-positive  button-block icon-left ion-music-note" ng-click="invia2()">Inserisci suono</a>
+      <div class="item item-body" id="menuGestioneCommunity-list-item-container1" ng-show="sospesi.length>0">
+        <ion-list id="menuGestioneCommunity-list14">
+            <ion-list id="menuGestioneCommunity-list16">
+            <ion-item class="item-icon-right positive" id="menuGestioneCommunity-list-item16" ng-repeat="sospeso in sospesi | filter: nome" ng-model="sospesi" ng-click="cercasuono(sospeso)"> Id: {{sospeso.id}} Nome: {{sospeso.nome}}
+            </ion-item>
+          </ion-list>
+        </ion-list>
+      </div>
+      <div class="spacer" style="width: 300px; height: 15px;"></div>
+      <label  ng-show="sospesi.length==0">
+         <h3 id="menuGestioneCommunity-heading14" style="color:#0F71DE;text-align:center;" >Non ci sono suoni da controllare</h3>
+      </label>      
+      <div class="spacer" style="width: 300px; height: 18px;"></div>
+    </form>
+	
 
 
   </ion-content>

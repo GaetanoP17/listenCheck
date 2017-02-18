@@ -1,4 +1,4 @@
-<ion-view title="" hide-back-button="true" id="gestioneCommunity" cache-view='false' ng-init="esamina()">
+<ion-view title="" hide-back-button="true" id="gestioneCommunity" cache-view='false' >
   <ion-nav-buttons side="left" class="has-header">
     <a ui-sref="menuGestioneCommunity" class="button icon-left ion-chevron-left button-clear button-white">&nbsp;Back</a>
   </ion-nav-buttons>
@@ -12,12 +12,17 @@
         <input type="text" placeholder="" ng-model="nome">
       </label>
       <h4 id="gestioneCommunity-heading21" style="color:#0F71DE;">Categoria</h4>
-      <label class="item item-input" id="gestioneCommunity-input29" name="categoria">		 
-		 <input list="testList" type="search" ng-model="myselecteditem"/>
-    <datalist id="testList">
-        <option ng-repeat="x1 in names" value="{{x1.drname}}">{{x1.text}}</option>
-    </datalist>
+      <label class="item item-input" id="gestioneCommunity-input28" name="categoria">
+        <input type="text" placeholder="" ng-model="categoria">
       </label>
+      <div class="item item-body" id="gestioneCommunity-list-item-container1">
+        <ion-list id="gestioneCommunity-list14">
+            <ion-list id="gestioneCommunity-list16">
+            <ion-item class="item-icon-right positive" id="gestioneCommunity-list-item16" ng-repeat="sospeso in sospesi | filter: categoria" ng-model="sospesi" ng-click="hasChange(sospeso.categoria)">  {{sospeso.categoria}}  {{sospeso.testo}}
+            </ion-item>
+          </ion-list>
+        </ion-list>
+      </div>
       <div class="spacer" style="width: 280px; height: 17px;"></div>
       <button id="gestioneCommunity-button27" style="width:70%; margin-left:15%; margin-right:15%; font-weight:500;color:#FFFFFF;font-size:20px;border-radius:50px 50px 50px 50px;" class="button button-positive  button-block icon-left ion-ios-play" ng-click="riproduci()">Riproduci</button>
      <div style="margin: 0px; line-height: 10px; background-color: rgb(232, 235, 239); text-align: center;">
