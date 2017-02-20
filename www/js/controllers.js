@@ -275,8 +275,7 @@ function (server,$scope, $stateParams, $cookies, $location, $http, $ionicPopup)
                 .success(function(data)
                 {
                     $cookies.remove('account');
-                    //se l'account appartiene ad un utente audioleso allora elimina la collaborazione
-                    
+                                       
                     var popup1=$ionicPopup.alert({
                         title: 'ListenCheck',
                         template: 'Account disattivato correttamente'
@@ -284,7 +283,7 @@ function (server,$scope, $stateParams, $cookies, $location, $http, $ionicPopup)
                         popup1.then(function(res)
                         {
                              $location.path('/login');
-                    
+                             //se l'account appartiene ad un utente audioleso allora elimina la collaborazione
                             if(tipo === 'U')
                             $http.post(server('/cercaLogopedista/disassocia'), {email: $cookies.getObject('account').email});
                     
@@ -1179,7 +1178,7 @@ function (server, $scope, $stateParams, $http, $ionicPopup, $location, $cookies,
                 {  
                     $scope.logoPersonale=values[0].data;
                     $scope.persone=values[1].data;
-
+                    
                     for(var i=0; i<$scope.persone.length; i++)
                     {
                         if($scope.persone[i].email === $scope.logoPersonale)
@@ -1187,7 +1186,10 @@ function (server, $scope, $stateParams, $http, $ionicPopup, $location, $cookies,
                             $scope.nomeL=$scope.persone[i].nome;
                             $scope.cognomeL=$scope.persone[i].cognome;
                             $scope.persone.splice(i,1);
-                            break;
+                        }
+                        if($scope.persone[i].stato === 3)
+                        {
+                            $scope.persone.splice(i,1);
                         }
                     }
                 });
@@ -1248,6 +1250,11 @@ function (server, $scope, $stateParams, $http, $ionicPopup, $location, $cookies,
                 .success(function(data)
                 {
                     $scope.persone=data;
+                    for(var i=0; i<$scope.persone.length; i++)
+                    {
+                        if($scope.persone[i].stato === 3)
+                            $scope.persone.splice(i,1);
+                    }
                 })
                 .error(function()
                 {
@@ -1551,6 +1558,7 @@ function (server, checkvalue, capitalize, registrazione, $scope, $stateParams, $
             })
             .error(function()
             {
+                $scope.button=true;
                 $ionicPopup.alert({
                 title: 'ListenCheck',
                 template: "Problemi con il server...Riprovare più tardi"
@@ -1689,6 +1697,7 @@ function (server, checkvalue, $scope, $stateParams, $http, $ionicPopup, $locatio
                 }
                 else if(data === "Match")
                 {
+                    $scope.button=true;
                     $ionicPopup.alert({
                     title: 'ListenCheck',
                     template: 'Email già utilizzata'
