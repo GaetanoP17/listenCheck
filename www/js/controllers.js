@@ -1828,7 +1828,7 @@ function (server, checkvalue, $scope, $stateParams, $http, $ionicPopup, $locatio
     var decibel, frequenza;
     var scelta = $cookies.getObject('selected');
     $scope.sospesi= new Array();
-    
+  
     $http.post(server('/categorie'))
         .success(function(data){
             for(i=0;i<data.length;i++)
@@ -1840,6 +1840,7 @@ function (server, checkvalue, $scope, $stateParams, $http, $ionicPopup, $locatio
                 }
     });
       
+	
     $http.post(server('/menucommunity/esiste'),{file:scelta}).success(function(data){
         if(data === "SI"){
             $http.post(server('/menucommunity/files'))
@@ -1868,7 +1869,7 @@ function (server, checkvalue, $scope, $stateParams, $http, $ionicPopup, $locatio
             $location.path("/menuGestioneCommunity");
         }                                                        
     });	  
-	
+
     $scope.riproduci=function(){
 		var x = document.getElementById("myAudio"); 
 		x.play();               
