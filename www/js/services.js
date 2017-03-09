@@ -3,7 +3,7 @@ angular.module('app.services', [])
 .factory('server', function() { 
         return function(indirizzo) { 
             //www.sesa.unisa.it:443
-            return ('http://172.19.16.196:3000' + indirizzo);
+            return ('http://localhost:3000' + indirizzo);
         }
 })
 .factory('capitalize', function()
